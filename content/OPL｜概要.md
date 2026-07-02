@@ -1,7 +1,8 @@
 ---
 notion-id: 37e6f7fc-aedf-80ac-8abd-e6fa435a012b
 
-転写済: true---
+転写済: true
+---
 ## 概要
 
 OPL（Observation Persistence Loop）は、観測対象を管理する仕組みではなく、観測者自身が対象との接続を切らさないための継続構造である。

@@ -2,7 +2,8 @@
 notion-id: 37e6f7fc-aedf-817d-850f-ecaead96bcee
 cover: "[[OPL｜揺れながら観測を維持する構造.jpeg|OPL｜揺れながら観測を維持する構造.jpeg]]"
 
-転写済: true---
+転写済: true
+---
 OPL（Observation Persistence Loop）は、対象を継続観測するための仕組みではなく、観測者自身が対象との接続を切らさないための継続構造である。
 
 目的は成果物生成や更新頻度最大化ではない。

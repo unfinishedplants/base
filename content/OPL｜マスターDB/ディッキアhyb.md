@@ -8,4 +8,5 @@ base: "OPL｜マスターDB.base"
 OPLログ:
   - "[[OPL｜ログDB/ディッキアhyb｜株分け|ディッキアhyb｜株分け]]"
 
-転写済: true---
+転写済: true
+---

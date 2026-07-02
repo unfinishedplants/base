@@ -7,4 +7,5 @@ base: "OPL｜マスターDB.base"
 メモ: ""
 OPLログ: []
 
-転写済: true---
+転写済: true
+---

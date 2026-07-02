@@ -1,7 +1,8 @@
 ---
 notion-id: 37e6f7fc-aedf-80ee-8360-e1259d0a131e
 
-転写済: true---
+転写済: true
+---
 ## 実装
 
 OPLは自動化基盤ではない。

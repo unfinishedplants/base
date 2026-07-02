@@ -11,7 +11,8 @@ base: "OPL｜マスターDB.base"
 メモ: 未完植物「栽培記録」カテゴリ2ページ目から初期取り込み。タグはアロエhyb、スーパースノーフレーク系と思われる記載。
 OPLログ: []
 
-転写済: true---
+転写済: true
+---
 ![aloe-supersnowflakehyb-20250921-2.jpg](/attachments/aloe-supersnowflakehyb-20250921-2.jpg)
 
 ![aloe-supersnowflakehyb-20250921.jpg](/attachments/aloe-supersnowflakehyb-20250921.jpg)
