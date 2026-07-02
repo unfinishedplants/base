@@ -1,4 +1,5 @@
 ---
+notion-id: 3916f7fc-aedf-81e2-a5a9-c70ec8fbf1ad
 base: "OPL｜ログDB.base"
 ジーン度: 中
 介入内容: 3Dプリント試作
