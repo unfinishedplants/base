@@ -1,0 +1,49 @@
+# OPL｜ログDB
+
+filters:
+  and:
+    - note["base"] == link("OPL｜ログDB.base")
+properties:
+  file.name:
+    displayName: ログ名
+  前ログ:
+    displayName: 前ログ
+  ジーン度:
+    displayName: ジーン度
+  転写先URL:
+    displayName: 転写先URL
+  介入内容:
+    displayName: 介入内容
+  観測:
+    displayName: 観測
+  メモ:
+    displayName: メモ
+  対象植物:
+    displayName: 対象植物
+  観測日:
+    displayName: 観測日
+  状態:
+    displayName: 状態
+  次ログ:
+    displayName: 次ログ
+  写真:
+    displayName: 写真
+  転写済:
+    displayName: 転写済
+views:
+  - type: table
+    name: Table View
+    order:
+      - file.name
+      - 前ログ
+      - ジーン度
+      - 転写先URL
+      - 介入内容
+      - 観測
+      - メモ
+      - 対象植物
+      - 観測日
+      - 状態
+      - 次ログ
+      - 写真
+      - 転写済

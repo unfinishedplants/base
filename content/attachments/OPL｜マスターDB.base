@@ -1,0 +1,41 @@
+filters:
+  and:
+    - note["base"] == link("OPL｜マスターDB.base")
+formulas:
+  最終観測日: note["OPLログ"].map(value.asFile().properties["観測日"]).filter(value != null).map(date(value)).sort()[-1]
+  現在の状態: note["OPLログ"].map(value.asFile().properties["状態"])
+  写真アルバム: note["OPLログ"].map(value.asFile().properties["写真"]).flat().unique()
+  観測回数: note["OPLログ"].map(value.asFile().properties["ログ名"]).flat().length
+properties:
+  file.name:
+    displayName: 植物名
+  導入日:
+    displayName: 導入日
+  種類:
+    displayName: 種類
+  置き場所:
+    displayName: 置き場所
+  学名:
+    displayName: 学名
+  メイン写真:
+    displayName: メイン写真
+  メモ:
+    displayName: メモ
+  OPLログ:
+    displayName: OPLログ
+views:
+  - type: table
+    name: Table View
+    order:
+      - file.name
+      - 導入日
+      - 種類
+      - 置き場所
+      - 学名
+      - メイン写真
+      - メモ
+      - OPLログ
+      - formula.最終観測日
+      - formula.現在の状態
+      - formula.写真アルバム
+      - formula.観測回数
