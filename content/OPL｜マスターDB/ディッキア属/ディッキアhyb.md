@@ -6,7 +6,7 @@ base: "OPL｜マスターDB.base"
 学名: Dyckia hybrid
 メモ: ""
 OPLログ:
-  - "[[OPL｜ログDB/ディッキアhyb｜株分け|ディッキアhyb｜株分け]]"
+  - "[[ディッキアhyb｜株分け.md|ディッキアhyb｜株分け]]"
 
 転写済: true
 ---
