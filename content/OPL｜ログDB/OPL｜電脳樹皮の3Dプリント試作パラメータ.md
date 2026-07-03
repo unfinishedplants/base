@@ -43,4 +43,4 @@ base: "OPL｜ログDB.base"
 
 
 ## 📷 観測写真
-![写真](/attachments/media__1782908169689.webp)
+<img src="/attachments/media__1782908169689.webp" width="300" style="max-height: 400px; object-fit: contain; border-radius: 8px; margin: 8px; display: inline-block;">

@@ -19,5 +19,5 @@ base: "OPL｜ログDB.base"
 
 
 ## 📷 観測写真
-![写真](/attachments/PXL_20250731_122402941.webp)
-![写真](/attachments/PXL_20250731_122410713.webp)
+<img src="/attachments/PXL_20250731_122402941.webp" width="300" style="max-height: 400px; object-fit: contain; border-radius: 8px; margin: 8px; display: inline-block;">
+<img src="/attachments/PXL_20250731_122410713.webp" width="300" style="max-height: 400px; object-fit: contain; border-radius: 8px; margin: 8px; display: inline-block;">
