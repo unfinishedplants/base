@@ -1,6 +1,6 @@
 ---
 notion-id: 37f6f7fc-aedf-802b-97b3-d3ca8285bd5b
-base: "OPL｜ログDB.base"
+base: "観測持続環｜ログDB.base"
 前ログ: []
 介入内容: ""
 観測: ""
@@ -13,7 +13,3 @@ base: "OPL｜ログDB.base"
   - "PXL_20250904_140950188.jpg"
 転写済: false
 ---
-
-
-## 📷 観測写真
-<img src="/attachments/PXL_20250904_140950188.webp" width="300" style="max-height: 400px; object-fit: contain; border-radius: 8px; margin: 8px; display: inline-block;">

@@ -1,6 +1,6 @@
 ---
 notion-id: 3916f7fc-aedf-81e2-a5a9-c70ec8fbf1ad
-base: "OPL｜ログDB.base"
+base: "観測持続環｜ログDB.base"
 ジーン度: 中
 介入内容: 3Dプリント試作
 観測: 電脳樹皮（Cyber-Bark）の3Dプリント試作
@@ -13,7 +13,7 @@ base: "OPL｜ログDB.base"
 転写済: false
 ---
 
-# OPL｜電脳樹皮（Cyber-Bark）の3Dプリント試作パラメータ
+# 観測持続環｜電脳樹皮（Cyber-Bark）の3Dプリント試作パラメータ
 
 着生植物の根が引っ掛かり、水分や空気を保持するための「人工樹皮」のテクスチャ検証ログ。
 
@@ -40,7 +40,3 @@ base: "OPL｜ログDB.base"
     PETGの光沢感とVoronoiファジースキン（0.5mm厚）が組み合わさることで、まるで溶岩石（玄武岩）や炭化した天然樹皮のような極めてリアルな凹凸が形成された。プラスチック特有のチープなツルツル感が完全に消滅している。
 2.  **インフィルサイズ（Gyroid 1%）のフィードバック**
     ジャイロイドの1%充填は空隙を作るアプローチとして方向性は正しいが、根が内部へ潜り込むための「侵入路」としてはピッチが細かすぎた。次回はジャイロイドのサイズスケールをさらに拡大するか、充填率を極限まで下げるアプローチを検証する。
-
-
-## 📷 観測写真
-<img src="/attachments/media__1782908169689.webp" width="300" style="max-height: 400px; object-fit: contain; border-radius: 8px; margin: 8px; display: inline-block;">
