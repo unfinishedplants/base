@@ -1,5 +1,7 @@
 ---
+notion-id: 3926f7fc-aedf-81a0-8e9f-ea431863476c
 title: 🌵 植物図鑑 (Master DB)
+転写済: true
 ---
 
 # 🌵 植物図鑑 (Master DB)

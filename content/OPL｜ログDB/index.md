@@ -1,5 +1,7 @@
 ---
+notion-id: 3916f7fc-aedf-813d-bb1e-ef797d6aca55
 title: 📝 観測ログ (Logs)
+転写済: true
 ---
 
 # 📝 観測ログ (Logs)
