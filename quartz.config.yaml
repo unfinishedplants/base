@@ -208,8 +208,8 @@ plugins:
       linkToMore: false
       showTags: false
     layout:
-      position: left
-      priority: 60
+      position: right
+      priority: 20
   - source: github:quartz-community/spacer
     enabled: true
     options: {}
