@@ -1,8 +1,8 @@
 ---
-title: 🌵 ハオルチア属 (Haworthia)
+title: 🌵 Haworthia
 転写済: true
 ---
 
-# 🌵 ハオルチア属 (Haworthia)
+# 🌵 Haworthia
 
 この属に分類される登録植物の一覧です。

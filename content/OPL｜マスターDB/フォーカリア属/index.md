@@ -1,8 +1,8 @@
 ---
-title: 🌵 フォーカリア属 (Faucaria)
+title: 🌵 Faucaria
 転写済: true
 ---
 
-# 🌵 フォーカリア属 (Faucaria)
+# 🌵 Faucaria
 
 この属に分類される登録植物の一覧です。

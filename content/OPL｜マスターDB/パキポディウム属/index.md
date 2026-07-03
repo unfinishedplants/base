@@ -1,8 +1,8 @@
 ---
-title: 🌴 パキポディウム属 (Pachypodium)
+title: 🌴 Pachypodium
 転写済: true
 ---
 
-# 🌴 パキポディウム属 (Pachypodium)
+# 🌴 Pachypodium
 
 この属に分類される登録植物の一覧です。

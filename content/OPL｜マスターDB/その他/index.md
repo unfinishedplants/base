@@ -1,8 +1,8 @@
 ---
-title: その他
+title: 🌱 Others
 転写済: true
 ---
 
-# その他
+# 🌱 Others
 
 この属に分類される登録植物の一覧です。

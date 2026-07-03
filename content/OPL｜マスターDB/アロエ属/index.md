@@ -1,8 +1,8 @@
 ---
-title: 🍀 アロエ属 (Aloes)
+title: 🍀 Aloe
 転写済: true
 ---
 
-# 🍀 アロエ属 (Aloes)
+# 🍀 Aloe
 
 この属に分類される登録植物の一覧です。

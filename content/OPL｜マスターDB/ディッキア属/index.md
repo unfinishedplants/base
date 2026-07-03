@@ -1,8 +1,8 @@
 ---
-title: 🌵 ディッキア属 (Dyckia)
+title: 🌵 Dyckia
 転写済: true
 ---
 
-# 🌵 ディッキア属 (Dyckia)
+# 🌵 Dyckia
 
 この属に分類される登録植物の一覧です。

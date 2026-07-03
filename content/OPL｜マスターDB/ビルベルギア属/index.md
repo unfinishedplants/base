@@ -1,8 +1,8 @@
 ---
-title: 🍍 ビルベルギア属 (Billbergia)
+title: 🍍 Billbergia
 転写済: true
 ---
 
-# 🍍 ビルベルギア属 (Billbergia)
+# 🍍 Billbergia
 
 この属に分類される登録植物の一覧です。
