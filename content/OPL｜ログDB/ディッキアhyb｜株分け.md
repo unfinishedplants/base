@@ -16,3 +16,8 @@ base: "OPL｜ログDB.base"
   - "PXL_20250731_122410713.jpg"
 転写済: false
 ---
+
+
+## 📷 観測写真
+![写真](/attachments/PXL_20250731_122402941.webp)
+![写真](/attachments/PXL_20250731_122410713.webp)
