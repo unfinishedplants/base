@@ -4,7 +4,6 @@ title: Ghost in the Voronoi
 転写済: true
 ---
 
-# Ghost in the Voronoi
 
 > **未完の生命、未完のインフラ (Unfinished Life, Unfinished Infrastructure)**
 
