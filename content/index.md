@@ -1,5 +1,7 @@
 ---
+notion-id: 3916f7fc-aedf-813d-bb1e-ef797d6aca55
 title: Ghost in the Voronoi
+転写済: true
 ---
 
 # Ghost in the Voronoi
