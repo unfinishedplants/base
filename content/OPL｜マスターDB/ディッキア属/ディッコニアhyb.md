@@ -1,11 +1,5 @@
 ---
-notion-id: 37e6f7fc-aedf-8051-904f-c90ac6c3b7e7
-base: "観測持続環｜マスターDB.base"
-種類: ディッコニア
-置き場所: ベランダ｜棚
-学名: ×Dyckcohnia
-メモ: ""
-観測持続環ログ: []
-
+notion-id: 3936f7fc-aedf-811c-af3f-c27dd6ce91a8
 転写済: true
 ---
+
