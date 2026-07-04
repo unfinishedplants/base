@@ -5,7 +5,11 @@ configuration:
   enableSPA: true
   enablePopovers: true
   analytics:
-    provider: plausible
+    provider: umami
+    host: https://cloud.umami.is
+    websiteId: "2e510d81-2dc1-42c0-9ba5-243f211636ac"
+
+
   locale: en-US
   baseUrl: opl.unfinishedplants.jp
   ignorePatterns:
