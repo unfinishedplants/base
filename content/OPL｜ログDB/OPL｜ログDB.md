@@ -1,6 +1,6 @@
 ---
 notion-id: 3936f7fc-aedf-8163-9935-ce80f6106c30
-base: "[[OPL｜ログDB/OPL｜ログDB|観測持続環｜ログDB.base]]"
+base: "[[OPL｜ログDB|観測持続環｜ログDB.base]]"
 前ログ: []
 介入内容: ""
 観測: ""

@@ -6,10 +6,15 @@ base: "観測持続環｜ログDB.base"
 観測: ""
 メモ: ""
 対象植物:
-  - "[[アロエ ドラキュラズブラッド系.md|アロエ ドラキュラズブラッド系]]"
+  - "[[OPL｜マスターDB/アロエ属/アロエ ドラキュラズブラッド系.md|アロエ ドラキュラズブラッド系]]"
 観測日: 2025-09-04
 次ログ: []
 写真:
   - "PXL_20250904_140950188.jpg"
 転写済: true
 ---
+
+
+<div style="display: flex; flex-wrap: wrap;">
+<img src="/attachments/PXL_20250904_140950188.webp" width="300" style="max-height: 400px; object-fit: contain; border-radius: 8px; margin: 8px; display: inline-block;">
+</div>

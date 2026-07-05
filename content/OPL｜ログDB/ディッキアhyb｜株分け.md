@@ -16,3 +16,9 @@ base: "観測持続環｜ログDB.base"
   - "PXL_20250731_122410713.jpg"
 転写済: true
 ---
+
+
+<div style="display: flex; flex-wrap: wrap;">
+<img src="/attachments/PXL_20250731_122402941.webp" width="300" style="max-height: 400px; object-fit: contain; border-radius: 8px; margin: 8px; display: inline-block;">
+<img src="/attachments/PXL_20250731_122410713.webp" width="300" style="max-height: 400px; object-fit: contain; border-radius: 8px; margin: 8px; display: inline-block;">
+</div>
