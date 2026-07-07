@@ -261,6 +261,7 @@ a {
         & > * {
           flex: 1;
           max-height: 24rem;
+          overflow-y: auto;
         }
         & > .toc {
           display: none;
