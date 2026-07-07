@@ -8,9 +8,13 @@ import { componentRegistry } from "./quartz/components/registry"
 // componentRegistryのTSオーバーライド経路（config-loader.tsがYAMLのoptionsとマージする）で注入する。
 // このコンポーネントはSSR時にフル情報のQuartzPluginDataを使うため
 // （Explorerサイドバーと違い、日付がcontentIndex.jsonで欠落する問題はない）。
+// 注意: `f.dates.created` はgit/filesystemへのフォールバック後の値なので、
+// 観測日/導入日を持たないノートでも常にtruthyになってしまう。
+// 実際に観測日/導入日由来のcreated:が注入されたノートかどうかは、
+// フォールバック前の生フロントマター `f.frontmatter.created` の有無で判定する。
 componentRegistry.setOptionOverrides("recent-notes", {
-  filter: (f: { slug?: string; dates?: { created?: unknown } }) =>
-    !!f.slug?.startsWith("opl｜ログdb/") && !!f.dates?.created,
+  filter: (f: { slug?: string; frontmatter?: { created?: unknown } }) =>
+    !!f.slug?.startsWith("opl｜ログdb/") && !!f.frontmatter?.created,
 })
 
 const config = await loadQuartzConfig()
