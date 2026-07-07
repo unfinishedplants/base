@@ -1,4 +1,5 @@
 ---
+title: Ghost in the Voronoi
 転写済: true
 ---
 
