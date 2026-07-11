@@ -20,3 +20,75 @@ componentRegistry.setOptionOverrides("recent-notes", {
 const config = await loadQuartzConfig()
 export default config
 export const layout = await loadQuartzLayout()
+
+// 右サイドバー（Graph View/最近の観測ログ/TOC）はposition:stickyでheight:100vh・
+// overflow:hiddenにしてある（quartz/styles/base.scss）。中身の合計が100vhを
+// 超える場合、スクロール量に応じてtranslateYで中身を少しずつ上へスライドさせ、
+// はみ出した下の方（TOCの後半など）も内部スクロールバー無しで読めるようにする。
+// 記事の終わり付近ではsticky自体が解除されて通常通り上へ流れて消えていく。
+//
+// componentRegistryはビルド時のリソース収集（ComponentResources emitter）でも
+// 同じインスタンスを参照するため、既存コンポーネント（recent-notes）の
+// afterDOMLoadedに追記するだけで、Quartzの標準的な仕組み（初回読み込み・
+// SPAナビゲーションの両方で再実行される）に乗って配信される。
+const stickyRevealScript = `
+(function () {
+  if (window.__quartzStickyRevealCleanup) {
+    window.__quartzStickyRevealCleanup()
+  }
+  var sidebar = document.querySelector(".sidebar.right")
+  if (!sidebar) return
+  var mq = window.matchMedia("(min-width: 1200px)")
+  var containerTop = 0
+  var maxTranslate = 0
+
+  function recalc() {
+    if (!mq.matches) {
+      sidebar.style.transform = ""
+      return
+    }
+    sidebar.style.transform = ""
+    var rect = sidebar.getBoundingClientRect()
+    containerTop = rect.top + window.scrollY
+    var contentH = sidebar.scrollHeight
+    maxTranslate = Math.max(0, contentH - window.innerHeight)
+    onScroll()
+  }
+
+  function onScroll() {
+    if (!mq.matches || maxTranslate <= 0) {
+      sidebar.style.transform = ""
+      return
+    }
+    var scrolledPastStick = window.scrollY - containerTop
+    var translate = Math.min(Math.max(scrolledPastStick, 0), maxTranslate)
+    sidebar.style.transform = "translateY(-" + translate + "px)"
+  }
+
+  var ticking = false
+  function scheduleScroll() {
+    if (!ticking) {
+      ticking = true
+      requestAnimationFrame(function () {
+        onScroll()
+        ticking = false
+      })
+    }
+  }
+
+  window.addEventListener("scroll", scheduleScroll, { passive: true })
+  window.addEventListener("resize", recalc)
+  window.__quartzStickyRevealCleanup = function () {
+    window.removeEventListener("scroll", scheduleScroll)
+    window.removeEventListener("resize", recalc)
+    sidebar.style.transform = ""
+  }
+  recalc()
+})()
+`
+
+const recentNotesReg = componentRegistry.get("recent-notes")
+if (recentNotesReg && typeof recentNotesReg.component === "function") {
+  const ctor = recentNotesReg.component as unknown as { afterDOMLoaded?: string }
+  ctor.afterDOMLoaded = (typeof ctor.afterDOMLoaded === "string" ? ctor.afterDOMLoaded : "") + stickyRevealScript
+}
