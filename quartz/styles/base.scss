@@ -225,6 +225,7 @@ a {
       padding: $topSpacing 2rem 2rem 2rem;
       display: flex;
       height: 100vh;
+      overflow-y: auto;
       position: sticky;
     }
 
