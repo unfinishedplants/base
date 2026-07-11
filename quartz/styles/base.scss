@@ -225,15 +225,7 @@ a {
       padding: $topSpacing 2rem 2rem 2rem;
       display: flex;
       height: 100vh;
-      overflow-y: auto;
       position: sticky;
-
-      // flex-shrinkのデフォルト値(1)のままだと、中身の合計が100vhを超えたときに
-      // コンテナ全体をスクロールする代わりに各子要素（TOCなど）が押し潰されてしまう。
-      // 各セクションは自然な高さを保ち、はみ出した分はサイドバー全体でスクロールする。
-      & > * {
-        flex-shrink: 0;
-      }
     }
 
     & .sidebar.left {
@@ -256,6 +248,17 @@ a {
       grid-area: grid-sidebar-right;
       margin-right: 0;
       flex-direction: column;
+      // Explorer（左サイドバー）は自前でheight:100dvh/overflow-y:autoを持ち
+      // overscroll-behavior:containでスクロールチェインをブロックしているため、
+      // 外側にも overflow を持たせると二重にスクロール領域ができてホイールが
+      // 効かなくなる。Graph View/最近の観測ログ/TOCは自前のoverflow管理を
+      // 持たないため、右サイドバー側だけに外側スクロールを持たせる。
+      @media all and ($desktop) {
+        overflow-y: auto;
+        & > * {
+          flex-shrink: 0;
+        }
+      }
       @media all and ($mobile) {
         margin-left: inherit;
         margin-right: inherit;
