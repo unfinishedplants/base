@@ -248,25 +248,16 @@ a {
       grid-area: grid-sidebar-right;
       margin-right: 0;
       flex-direction: column;
-      // TOC・Explorerは自前でoverflow/overscroll-behavior:containを持っており、
-      // 外側（このコンテナ）にoverflowを持たせると二重スクロール領域になって
-      // ホイールが効かなくなる。そのため外側は触らず、自前の overflow 管理を
-      // 持たない Graph View / 最近の観測ログ にだけ個別に高さ制限とスクロールを与える。
-      @media all and ($desktop) {
-        & > .graph,
-        & > .recent-notes {
-          flex-shrink: 0;
-          max-height: 24rem;
-          overflow-y: auto;
-        }
-      }
+      // 右サイドバー（Graph View/最近の観測ログ/TOC）は普通のブログのように
+      // 全部展開した状態で表示し、固定高さ・内部スクロールボックスにはしない。
+      // ページ全体と一緒に自然にスクロールする（左のExplorerは従来通りsticky）。
+      position: initial;
+      height: unset;
       @media all and ($mobile) {
         margin-left: inherit;
         margin-right: inherit;
       }
       @media all and not ($desktop) {
-        position: initial;
-        height: unset;
         width: 100%;
         flex-direction: row;
         padding: 0;
