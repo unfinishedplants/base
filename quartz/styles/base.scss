@@ -227,6 +227,13 @@ a {
       height: 100vh;
       overflow-y: auto;
       position: sticky;
+
+      // flex-shrinkのデフォルト値(1)のままだと、中身の合計が100vhを超えたときに
+      // コンテナ全体をスクロールする代わりに各子要素（TOCなど）が押し潰されてしまう。
+      // 各セクションは自然な高さを保ち、はみ出した分はサイドバー全体でスクロールする。
+      & > * {
+        flex-shrink: 0;
+      }
     }
 
     & .sidebar.left {
