@@ -254,6 +254,14 @@ a {
       // 短い必要があるため、height: 100vh（.sidebarの基本ルール）はそのまま使う。
       // overflowは指定しない（デフォルトのvisibleのまま）ので、100vhを超えた分は
       // 隠れたりスクロールしたりせず、そのまま下に表示され続ける。
+      // flex-shrinkのデフォルト(1)のままだと、中身の合計が100vhを超えたときに
+      // 各セクション（特にTOC）が圧縮され、TOC自身の「入りきらない時は
+      // 自動スクロール化する」機能が誤発動してしまうため、縮まないようにする。
+      @media all and ($desktop) {
+        & > * {
+          flex-shrink: 0;
+        }
+      }
       @media all and ($mobile) {
         margin-left: inherit;
         margin-right: inherit;
