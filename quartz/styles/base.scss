@@ -250,14 +250,15 @@ a {
       flex-direction: column;
       // 右サイドバー（Graph View/最近の観測ログ/TOC）は普通のブログのように
       // 全部展開した状態で表示し、固定高さ・内部スクロールボックスにはしない。
-      // ページ全体と一緒に自然にスクロールする（左のExplorerは従来通りsticky）。
-      position: initial;
+      // ただしposition: stickyは維持し、読み進める（スクロールする）につれて
+      // メニューが追従してくるようにする（高さ固定・overflowは付けない）。
       height: unset;
       @media all and ($mobile) {
         margin-left: inherit;
         margin-right: inherit;
       }
       @media all and not ($desktop) {
+        position: initial;
         width: 100%;
         flex-direction: row;
         padding: 0;
