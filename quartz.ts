@@ -1,5 +1,6 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
+import type { QuartzComponent, QuartzComponentConstructor } from "./quartz/components/types"
 
 // 「最近の観測ログ」(recent-notes, 右サイドバー) をOPL｜ログDB配下・かつ
 // 観測日/導入日由来の`created`日付を持つノートだけに絞る。
@@ -17,20 +18,18 @@ componentRegistry.setOptionOverrides("recent-notes", {
     !!f.slug?.startsWith("opl｜ログdb/") && !!f.frontmatter?.created,
 })
 
-const config = await loadQuartzConfig()
-export default config
-export const layout = await loadQuartzLayout()
-
 // 右サイドバー（Graph View/最近の観測ログ/TOC）はposition:stickyでheight:100vh・
 // overflow:hiddenにしてある（quartz/styles/base.scss）。中身の合計が100vhを
 // 超える場合、スクロール量に応じてtranslateYで中身を少しずつ上へスライドさせ、
 // はみ出した下の方（TOCの後半など）も内部スクロールバー無しで読めるようにする。
 // 記事の終わり付近ではsticky自体が解除されて通常通り上へ流れて消えていく。
 //
-// componentRegistryはビルド時のリソース収集（ComponentResources emitter）でも
-// 同じインスタンスを参照するため、既存コンポーネント（recent-notes）の
-// afterDOMLoadedに追記するだけで、Quartzの標準的な仕組み（初回読み込み・
-// SPAナビゲーションの両方で再実行される）に乗って配信される。
+// afterDOMLoadedは「登録済みコンポーネントのコンストラクタ関数」ではなく、
+// そのコンストラクタを呼び出した「戻り値（実際にレンダリングされる側）」に
+// 付いている必要がある（componentRegistry.getAllComponents()が読むのは
+// instantiate()の戻り値）。既存コンポーネントを間借りするのではなく、
+// 何も描画しない専用のダミーコンポーネントをローカル登録し、その戻り値に
+// スクリプトを付けることで確実に配信されるようにする。
 const stickyRevealScript = `
 (function () {
   if (window.__quartzStickyRevealCleanup) {
@@ -87,8 +86,13 @@ const stickyRevealScript = `
 })()
 `
 
-const recentNotesReg = componentRegistry.get("recent-notes")
-if (recentNotesReg && typeof recentNotesReg.component === "function") {
-  const ctor = recentNotesReg.component as unknown as { afterDOMLoaded?: string }
-  ctor.afterDOMLoaded = (typeof ctor.afterDOMLoaded === "string" ? ctor.afterDOMLoaded : "") + stickyRevealScript
+const StickyRevealScript: QuartzComponentConstructor = () => {
+  const Component = (() => null) as QuartzComponent
+  Component.afterDOMLoaded = stickyRevealScript
+  return Component
 }
+componentRegistry.register("sticky-reveal-script", StickyRevealScript, "local")
+
+const config = await loadQuartzConfig()
+export default config
+export const layout = await loadQuartzLayout()
