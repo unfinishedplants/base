@@ -248,15 +248,16 @@ a {
       grid-area: grid-sidebar-right;
       margin-right: 0;
       flex-direction: column;
-      // Explorer（左サイドバー）は自前でheight:100dvh/overflow-y:autoを持ち
-      // overscroll-behavior:containでスクロールチェインをブロックしているため、
-      // 外側にも overflow を持たせると二重にスクロール領域ができてホイールが
-      // 効かなくなる。Graph View/最近の観測ログ/TOCは自前のoverflow管理を
-      // 持たないため、右サイドバー側だけに外側スクロールを持たせる。
+      // TOC・Explorerは自前でoverflow/overscroll-behavior:containを持っており、
+      // 外側（このコンテナ）にoverflowを持たせると二重スクロール領域になって
+      // ホイールが効かなくなる。そのため外側は触らず、自前の overflow 管理を
+      // 持たない Graph View / 最近の観測ログ にだけ個別に高さ制限とスクロールを与える。
       @media all and ($desktop) {
-        overflow-y: auto;
-        & > * {
+        & > .graph,
+        & > .recent-notes {
           flex-shrink: 0;
+          max-height: 24rem;
+          overflow-y: auto;
         }
       }
       @media all and ($mobile) {
