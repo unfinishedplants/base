@@ -20,3 +20,29 @@ body {
 p {
   margin-bottom: 1.5rem; // 段落間に通り抜ける風の隙間を作る
 }
+
+// パンくずリスト（Breadcrumbs）の縦方向のアライメントと余白の調整
+.breadcrumbs,
+.breadcrumb,
+.breadcrumb-container {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.4rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1.5rem !important;
+
+  li, span, a, img, svg {
+    display: inline-flex !important;
+    align-items: center !important;
+    vertical-align: middle !important;
+    line-height: 1.2 !important; // パンくず内のテキスト行高を抑えてアライメントを固定
+  }
+
+  // 絵文字やフォルダアイコン画像のサイズと位置の微調整
+  img, svg, .icon {
+    height: 1.1em !important;
+    width: 1.1em !important;
+    margin-right: 0.2rem !important;
+  }
+}
