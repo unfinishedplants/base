@@ -38,7 +38,6 @@ const stickyRevealScript = `
   var sidebar = document.querySelector(".sidebar.right")
   if (!sidebar) return
   var mq = window.matchMedia("(min-width: 1200px)")
-  var containerTop = 0
   var maxTranslate = 0
   var resizeTimeout
 
@@ -48,8 +47,6 @@ const stickyRevealScript = `
       return
     }
     sidebar.style.transform = ""
-    var rect = sidebar.getBoundingClientRect()
-    containerTop = rect.top + window.scrollY
     var contentH = sidebar.scrollHeight
     maxTranslate = Math.max(0, contentH - window.innerHeight)
     onScroll()
@@ -70,8 +67,14 @@ const stickyRevealScript = `
       sidebar.style.transform = ""
       return
     }
-    var scrolledPastStick = window.scrollY - containerTop
-    var translate = Math.min(Math.max(scrolledPastStick, 0), maxTranslate)
+    var pageScrollMax = document.documentElement.scrollHeight - window.innerHeight
+    if (pageScrollMax <= 0) {
+      sidebar.style.transform = ""
+      return
+    }
+    // ページ全体のスクロール進捗率 (0.0 〜 1.0) に応じて、滑らかにスライド量を補間
+    var ratio = window.scrollY / pageScrollMax
+    var translate = ratio * maxTranslate
     sidebar.style.transform = "translateY(-" + translate + "px)"
   }
 
