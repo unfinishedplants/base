@@ -32,11 +32,26 @@ p {
   margin-top: 0.5rem !important;
   margin-bottom: 1.5rem !important;
 
-  li, span, a, img, svg {
+  .breadcrumb-element {
     display: inline-flex !important;
     align-items: center !important;
     vertical-align: middle !important;
-    line-height: 1.2 !important; // パンくず内のテキスト行高を抑えてアライメントを固定
+
+    a {
+      display: inline-flex !important;
+      align-items: center !important;
+      line-height: 1.2 !important;
+    }
+
+    // ★重要：区切り文字のpタグにかかった margin-bottom を完全にパージし、縦中央揃えに！
+    p {
+      display: inline-flex !important;
+      align-items: center !important;
+      margin: 0 0.3rem !important;
+      padding: 0 !important;
+      line-height: 1 !important;
+      opacity: 0.6 !important;
+    }
   }
 
   // 絵文字やフォルダアイコン画像のサイズと位置の微調整
