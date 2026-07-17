@@ -35,13 +35,13 @@ configuration:
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#fff23688"
       darkMode:
-        light: "#161618"
-        lightgray: "#393639"
-        gray: "#646464"
-        darkgray: "#d4d4d4"
-        dark: "#ebebec"
-        secondary: "#7b97aa"
-        tertiary: "#84a59d"
+        light: "#0f1315"
+        lightgray: "#22282b"
+        gray: "#5a686e"
+        darkgray: "#c4d1d6"
+        dark: "#e6eff2"
+        secondary: "#729bb0"
+        tertiary: "#87ab9f"
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#b3aa0288"
 plugins:
@@ -76,7 +76,7 @@ plugins:
     order: 50
     layout:
       position: right
-      priority: 20
+      priority: 10
   - source: github:quartz-community/crawl-links
     enabled: true
     options:
@@ -135,10 +135,10 @@ plugins:
       position: left
       priority: 50
   - source: github:quartz-community/graph
-    enabled: true
+    enabled: false
     layout:
       position: right
-      priority: 10
+      priority: 40
   - source: github:quartz-community/search
     enabled: true
     layout:
@@ -151,7 +151,7 @@ plugins:
     enabled: true
     layout:
       position: right
-      priority: 50
+      priority: 30
   - source: github:quartz-community/article-title
     enabled: true
     layout:
@@ -214,7 +214,7 @@ plugins:
       hideFolderPages: true
     layout:
       position: right
-      priority: 30
+      priority: 20
   - source: github:quartz-community/spacer
     enabled: true
     options: {}

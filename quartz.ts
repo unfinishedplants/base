@@ -40,6 +40,7 @@ const stickyRevealScript = `
   var mq = window.matchMedia("(min-width: 1200px)")
   var containerTop = 0
   var maxTranslate = 0
+  var resizeTimeout
 
   function recalc() {
     if (!mq.matches) {
@@ -52,6 +53,16 @@ const stickyRevealScript = `
     var contentH = sidebar.scrollHeight
     maxTranslate = Math.max(0, contentH - window.innerHeight)
     onScroll()
+  }
+
+  function debouncedRecalc() {
+    if (!mq.matches) {
+      sidebar.style.transform = ""
+      clearTimeout(resizeTimeout)
+      return
+    }
+    clearTimeout(resizeTimeout)
+    resizeTimeout = setTimeout(recalc, 150)
   }
 
   function onScroll() {
@@ -76,10 +87,11 @@ const stickyRevealScript = `
   }
 
   window.addEventListener("scroll", scheduleScroll, { passive: true })
-  window.addEventListener("resize", recalc)
+  window.addEventListener("resize", debouncedRecalc)
   window.__quartzStickyRevealCleanup = function () {
     window.removeEventListener("scroll", scheduleScroll)
-    window.removeEventListener("resize", recalc)
+    window.removeEventListener("resize", debouncedRecalc)
+    clearTimeout(resizeTimeout)
     sidebar.style.transform = ""
   }
   recalc()
