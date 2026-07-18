@@ -248,18 +248,11 @@ a {
       grid-area: grid-sidebar-right;
       margin-right: 0;
       flex-direction: column;
-      // 右サイドバー（Graph View/最近の観測ログ/TOC）は普通のブログのように
-      // 全部展開した状態で表示し、内部スクロールボックスにはしない。
-      // position: sticky が効くには自分の高さがコンテンツ全体（ページ全体）より
-      // 短い必要があるため、height: 100vh（.sidebarの基本ルール）はそのまま使う。
-      // flex-shrinkのデフォルト(1)のままだと、中身の合計が100vhを超えたときに
-      // 各セクション（特にTOC）が圧縮され、TOC自身の「入りきらない時は
-      // 自動スクロール化する」機能が誤発動してしまうため、縮まないようにする。
-      // overflow: hidden + JS(quartz.ts側)のtranslateYで、スクロール量に応じて
-      // 中身を少しずつ上へスライドさせ、100vhを超えた分（TOCの下の方など）も
-      // 読めるようにする（内部スクロールバーは出さない）。
       @media all and ($desktop) {
-        overflow: hidden;
+        overflow-y: auto;
+        max-height: 100vh;
+        scrollbar-width: thin;
+        scrollbar-color: var(--gray) transparent;
         & > * {
           flex-shrink: 0;
         }
