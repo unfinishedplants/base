@@ -151,7 +151,7 @@ plugins:
     enabled: true
     layout:
       position: right
-      priority: 30
+      priority: 20
   - source: github:quartz-community/article-title
     enabled: true
     layout:
@@ -214,7 +214,7 @@ plugins:
       hideFolderPages: true
     layout:
       position: right
-      priority: 20
+      priority: 30
   - source: github:quartz-community/spacer
     enabled: true
     options: {}
