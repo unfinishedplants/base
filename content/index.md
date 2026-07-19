@@ -9,7 +9,7 @@ title: Ghost in the Voronoi
 
 ## 🌵 観測対象(マスターDB)
 
--観測対象はサイドバーの「Explorer」または右側の「Graph View」より縦横無尽に探索可能です！
+観測対象はサイドバーの「Explorer」から探索可能です！
 
 ---
 
