@@ -61,3 +61,24 @@ p {
     margin-right: 0.2rem !important;
   }
 }
+
+// モバイル環境での画面左端UI（ドロワー/サイドバー/エクスプローラー）のはみ出しバグ完全防波堤
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+@media all and ($mobile) {
+  // 画面外にスライドアウト・折りたたまれた要素のお尻がチラ見えするのを100%物理遮断
+  .sidebar.left,
+  .sidebar.right,
+  .explorer {
+    max-width: 100vw;
+  }
+
+  // 閉じているアコーディオン・ドロワーが画面端にテキストを覗かせるのを防ぐ
+  .explorer:not([data-behavior="collapse"]) {
+    overflow: hidden;
+  }
+}
+
