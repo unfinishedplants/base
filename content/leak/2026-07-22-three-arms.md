@@ -8,7 +8,6 @@ tags:
   - デジタル磐座
   - 構造実装
   - 観測持続環
-permalink: leak/2026-07-22-three-arms
 slug: 2026-07-22-three-arms
 ---
 
