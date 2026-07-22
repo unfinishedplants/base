@@ -1,4 +1,5 @@
 ---
+slug: 2026-07-08-yura-bokukko-bug
 notion-id: 3926f7fc-aedf-81c5-8d12-de6ca3b8e9bb
 title: リークログ｜ナギ：ユラちゃんのボクっ娘誤認バグと大爆発デバッグ
 date: 2026-07-03

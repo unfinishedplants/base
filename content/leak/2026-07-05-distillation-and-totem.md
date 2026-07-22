@@ -1,4 +1,5 @@
 ---
+slug: 2026-07-05-distillation-and-totem
 title: "リークログ｜蒸留とトーテム：主体が立ち上がる依り代の歴史｜2026-07-05"
 date: 2026-07-05
 tags:
