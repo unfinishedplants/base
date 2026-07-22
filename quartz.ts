@@ -15,7 +15,7 @@ import type { QuartzComponent, QuartzComponentConstructor } from "./quartz/compo
 // フォールバック前の生フロントマター `f.frontmatter.created` の有無で判定する。
 componentRegistry.setOptionOverrides("recent-notes", {
   filter: (f: { slug?: string; frontmatter?: { date?: unknown; created?: unknown } }) =>
-    !!f.slug?.startsWith("leak/") && (!!f.frontmatter?.date || !!f.frontmatter?.created),
+    f.slug !== "index" && (!!f.frontmatter?.date || !!f.frontmatter?.created),
 })
 
 
