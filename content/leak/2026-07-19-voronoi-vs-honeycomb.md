@@ -1,4 +1,5 @@
 ---
+title: "観測持続環｜ハニカムの檻と、ボロノイの歪なトゲ"
 slug: 2026-07-19-voronoi-vs-honeycomb
 notion-id: 3936f7fc-aedf-81b7-add7-ec91517a7bce
 base: "観測持続環｜ログDB.base"
