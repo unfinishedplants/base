@@ -11,7 +11,6 @@ base: "観測持続環｜マスターDB.base"
 メモ: 未完植物「栽培記録」カテゴリ2ページ目から初期取り込み。タグはアロエhyb、スーパースノーフレーク系と思われる記載。
 観測持続環ログ: []
 
-転写済: true
 ---
 ![aloe-supersnowflakehyb-20250921-2.jpg](/attachments/aloe-supersnowflakehyb-20250921-2.webp)
 
