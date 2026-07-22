@@ -102,19 +102,7 @@ export function createFileParser(ctx: BuildCtx, fps: FilePath[]) {
         // base data properties that plugins may use
         file.data.filePath = file.path as FilePath
         file.data.relativePath = path.posix.relative(argv.directory, file.path) as FilePath
-
-        // フロントマター内の slug: プロパティを最優先解釈するパッチ
-        const rawContent = file.value.toString()
-        const slugMatch = rawContent.match(/^slug:\s*(.+)$/m)
-        if (slugMatch) {
-          const customSlug = slugMatch[1].trim().replace(/^["']|["']$/g, "")
-          const dir = path.posix.dirname(file.data.relativePath)
-          const cleanedDir = dir === "." ? "" : dir
-          const relativeSlug = cleanedDir ? `${cleanedDir}/${customSlug}` : customSlug
-          file.data.slug = slugifyFilePath(relativeSlug as FilePath)
-        } else {
-          file.data.slug = slugifyFilePath(file.data.relativePath)
-        }
+        file.data.slug = slugifyFilePath(file.data.relativePath)
 
         const ast = processor.parse(file)
         const newAst = await processor.run(ast, file)
