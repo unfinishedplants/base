@@ -14,8 +14,8 @@ import type { QuartzComponent, QuartzComponentConstructor } from "./quartz/compo
 // 実際に観測日/導入日由来のcreated:が注入されたノートかどうかは、
 // フォールバック前の生フロントマター `f.frontmatter.created` の有無で判定する。
 componentRegistry.setOptionOverrides("recent-notes", {
-  filter: (f: { slug?: string; frontmatter?: { created?: unknown } }) =>
-    !!f.slug?.startsWith("opl｜ログdb/") && !!f.frontmatter?.created,
+  filter: (f: { slug?: string; frontmatter?: { date?: unknown; created?: unknown } }) =>
+    !!f.slug?.startsWith("leak/") && (!!f.frontmatter?.date || !!f.frontmatter?.created),
 })
 
 
