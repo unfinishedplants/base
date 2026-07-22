@@ -1,5 +1,5 @@
 ---
-title: "観測持続環｜ハニカムの檻と、ボロノイの歪なトゲ"
+title: "リークログ｜ボロノイの尖りとハニカムの檻"
 slug: 2026-07-19-voronoi-vs-honeycomb
 date: 2026-07-19
 tags:

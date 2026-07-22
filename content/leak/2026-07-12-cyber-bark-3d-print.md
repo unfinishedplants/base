@@ -1,5 +1,5 @@
 ---
-title: "観測持続環｜電脳樹皮（Cyber-Bark）の3Dプリント試作パラメータ"
+title: "リークログ｜電脳樹皮（Cyber-Bark）の3Dプリント試作パラメータ"
 slug: 2026-07-12-cyber-bark-3d-print
 date: 2026-07-12
 tags:
