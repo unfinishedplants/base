@@ -11,7 +11,7 @@ configuration:
 
 
   locale: en-US
-  baseUrl: ghost.voronoi.works
+  baseUrl: opl.unfinishedplants.jp
   ignorePatterns:
     - private
     - templates
