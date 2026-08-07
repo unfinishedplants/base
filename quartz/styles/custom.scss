@@ -82,3 +82,30 @@ html, body {
   }
 }
 
+// ============================================================================
+// タグ（Tags / Properties）の折り返し防止・ダサさ撲滅CSS
+// ============================================================================
+a.tag-link,
+.tag-link,
+.tags a,
+.tags .tag,
+a[data-slug^="tags/"] {
+  white-space: nowrap !important; // タグ文字が縦2行に折れ曲がるのを完全防止！
+  word-break: keep-all !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 0.2rem 0.5rem !important;
+  margin: 0.2rem 0.2rem !important;
+}
+
+// タグコンテナ / Properties テーブル内のセルをゆったり展開
+.tags,
+.property-tags,
+tr:has(.tag-link) td,
+td:has(.tag-link) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  width: 100% !important;
+}
