@@ -202,8 +202,8 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
-        Discord Community: https://discord.gg/cRFFHYye7t
+        "Twitter / X": https://x.com/voronoi_logs
+        "Instagram": https://instagram.com/voronoi_views
   - source: github:quartz-community/recent-notes
     enabled: true
     options:
