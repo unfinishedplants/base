@@ -295,3 +295,38 @@ ul.tags {
     }
   }
 }
+
+// ============================================================================
+// 📌 左サイドバー（観測ログ一覧メニュー）のフロート固定（Sticky追従）
+// ============================================================================
+@media all and ($desktop) {
+  .page > #quartz-body .sidebar.left {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--lightgray) transparent !important;
+    z-index: 10 !important;
+
+    // 内部の観測ログ一覧（エクスプローラー）のフロート追従＆スクロール領域確保
+    .explorer {
+      flex: 1 1 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      min-height: 0 !important;
+
+      .explorer-content {
+        flex: 1 1 auto !important;
+        overflow-y: auto !important;
+        max-height: calc(100vh - 180px) !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: var(--lightgray) transparent !important;
+      }
+    }
+  }
+}
