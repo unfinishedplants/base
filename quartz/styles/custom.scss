@@ -110,6 +110,13 @@ td:has(.tag-link) {
   width: 100% !important;
 }
 
+// 機械的なPropertiesアコーディオンを完全に非表示化（tag-listへ一本化）
+.note-properties,
+details.note-properties,
+.metadata-container {
+  display: none !important;
+}
+
 // ============================================================================
 // 📂 観測ログ一覧（エクスプローラー）の超絶スッキリ・1行スマート化CSS
 // ============================================================================
