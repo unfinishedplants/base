@@ -62,7 +62,20 @@ p {
   }
 }
 
-// モバイル環境でのみ画面左端UIのはみ出し防止を適用（デスクトップのposition:stickyを破壊しないよう分離）
+// ============================================================================
+// 📌 Sticky追従（フロート固定）を完全防衛するHTML/BODY設定
+// ============================================================================
+// Quartzのbase.scssにある「html { overflow-x: hidden }」がposition:stickyを破壊するのを完全防止
+html {
+  overflow-x: clip !important;
+  width: auto !important;
+}
+
+body {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
 @media all and ($mobile) {
   html, body {
     overflow-x: hidden !important;
@@ -307,19 +320,24 @@ ul.tags {
 // 📌 サイドバー（左：観測ログ一覧 / 右：目次＆最近の観測ログ）のフロート固定（Sticky追従）
 // ============================================================================
 @media all and not ($mobile) {
-  // グリッド親要素の余計なoverflow制約を解除
-  .page,
+  // グリッド親要素の余計なoverflow制約を解除し、上端揃えに設定
+  .page {
+    overflow: visible !important;
+  }
+
   .page > #quartz-body {
     overflow: visible !important;
+    align-items: start !important;
   }
 
   // 左サイドバー（タイトル、検索、観測ログ一覧）のStickyフロート
   .page > #quartz-body .sidebar.left {
     position: sticky !important;
     top: 0 !important;
-    align-self: flex-start !important;
+    align-self: start !important;
     height: 100vh !important;
     max-height: 100vh !important;
+    box-sizing: border-box !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     display: flex !important;
@@ -338,7 +356,7 @@ ul.tags {
       .explorer-content {
         flex: 1 1 auto !important;
         overflow-y: auto !important;
-        max-height: calc(100vh - 180px) !important;
+        max-height: calc(100vh - 160px) !important;
         scrollbar-width: thin !important;
         scrollbar-color: var(--lightgray) transparent !important;
       }
@@ -349,8 +367,10 @@ ul.tags {
   .page > #quartz-body .sidebar.right {
     position: sticky !important;
     top: 0 !important;
-    align-self: flex-start !important;
+    align-self: start !important;
+    height: 100vh !important;
     max-height: 100vh !important;
+    box-sizing: border-box !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     scrollbar-width: thin !important;
