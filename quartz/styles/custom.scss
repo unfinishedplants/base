@@ -62,13 +62,13 @@ p {
   }
 }
 
-// モバイル環境での画面左端UI（ドロワー/サイドバー/エクスプローラー）のはみ出しバグ完全防波堤
-html, body {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-}
-
+// モバイル環境でのみ画面左端UIのはみ出し防止を適用（デスクトップのposition:stickyを破壊しないよう分離）
 @media all and ($mobile) {
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
   // 画面外にスライドアウト・折りたたまれた要素のお尻がチラ見えするのを100%物理遮断
   .sidebar.left,
   .sidebar.right,
@@ -304,12 +304,20 @@ ul.tags {
 }
 
 // ============================================================================
-// 📌 左サイドバー（観測ログ一覧メニュー）のフロート固定（Sticky追従）
+// 📌 サイドバー（左：観測ログ一覧 / 右：目次＆最近の観測ログ）のフロート固定（Sticky追従）
 // ============================================================================
-@media all and ($desktop) {
+@media all and not ($mobile) {
+  // グリッド親要素の余計なoverflow制約を解除
+  .page,
+  .page > #quartz-body {
+    overflow: visible !important;
+  }
+
+  // 左サイドバー（タイトル、検索、観測ログ一覧）のStickyフロート
   .page > #quartz-body .sidebar.left {
     position: sticky !important;
     top: 0 !important;
+    align-self: flex-start !important;
     height: 100vh !important;
     max-height: 100vh !important;
     overflow-y: auto !important;
@@ -320,7 +328,7 @@ ul.tags {
     scrollbar-color: var(--lightgray) transparent !important;
     z-index: 10 !important;
 
-    // 内部の観測ログ一覧（エクスプローラー）のフロート追従＆スクロール領域確保
+    // 内部の観測ログ一覧（エクスプローラー）のスクロール領域確保
     .explorer {
       flex: 1 1 auto !important;
       display: flex !important;
@@ -335,5 +343,17 @@ ul.tags {
         scrollbar-color: var(--lightgray) transparent !important;
       }
     }
+  }
+
+  // 右サイドバー（目次、最近の観測ログ）も同様にStickyフロート
+  .page > #quartz-body .sidebar.right {
+    position: sticky !important;
+    top: 0 !important;
+    align-self: flex-start !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--lightgray) transparent !important;
   }
 }
