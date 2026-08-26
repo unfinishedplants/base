@@ -109,3 +109,189 @@ td:has(.tag-link) {
   gap: 0.4rem !important;
   width: 100% !important;
 }
+
+// ============================================================================
+// 📂 観測ログ一覧（エクスプローラー）の超絶スッキリ・1行スマート化CSS
+// ============================================================================
+.explorer {
+  margin-top: 0.5rem;
+
+  .explorer-content {
+    margin-top: 0.5rem;
+
+    ul.explorer-ul {
+      li {
+        margin: 0.15rem 0 !important;
+
+        > a {
+          display: block !important;
+          padding: 0.28rem 0.5rem !important;
+          border-radius: 6px !important;
+          font-size: 0.86rem !important;
+          line-height: 1.35 !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          text-decoration: none !important;
+          color: var(--darkgray) !important;
+          transition: background-color 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
+
+          &:hover {
+            background-color: var(--highlight) !important;
+            color: var(--secondary) !important;
+            padding-left: 0.7rem !important;
+          }
+
+          &.active,
+          &.is-active {
+            background-color: var(--highlight) !important;
+            color: var(--secondary) !important;
+            font-weight: 600 !important;
+            border-left: 3px solid var(--secondary) !important;
+            padding-left: 0.5rem !important;
+          }
+        }
+      }
+    }
+  }
+
+  button.desktop-explorer,
+  button.mobile-explorer {
+    h2 {
+      font-size: 0.95rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.02em !important;
+    }
+  }
+}
+
+// ============================================================================
+// 🏷️ 記事ヘッダーのタグリスト（TagList）の美観向上
+// ============================================================================
+.tag-list,
+ul.tags {
+  list-style: none !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.35rem !important;
+  padding: 0 !important;
+  margin: 0.6rem 0 1.2rem 0 !important;
+
+  li {
+    display: inline-flex !important;
+    margin: 0 !important;
+
+    a.tag-link,
+    a.internal.tag-link {
+      display: inline-flex !important;
+      align-items: center !important;
+      padding: 0.15rem 0.6rem !important;
+      font-size: 0.8rem !important;
+      border-radius: 12px !important;
+      background-color: var(--highlight) !important;
+      color: var(--secondary) !important;
+      text-decoration: none !important;
+      transition: all 0.2s ease !important;
+
+      &:hover {
+        background-color: var(--secondary) !important;
+        color: var(--light) !important;
+        transform: translateY(-1px) !important;
+      }
+    }
+  }
+}
+
+// トップページのポータルスタイル
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0 2rem 0;
+
+  .portal-card {
+    background-color: var(--highlight);
+    border: 1px solid var(--lightgray);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: var(--secondary);
+    }
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+
+    p {
+      margin-bottom: 0;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--darkgray);
+    }
+  }
+}
+
+// ============================================================================
+// 📅 最近の観測ログ（recent-notes, 右サイドバー）のスタイリング
+// ============================================================================
+.recent-notes {
+  margin-top: 1rem;
+
+  h3 {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  ul.recent-ul {
+    padding: 0 !important;
+    list-style: none !important;
+
+    li.recent-li {
+      margin: 0.35rem 0 !important;
+      padding: 0.35rem 0.5rem !important;
+      border-radius: 6px !important;
+      background-color: transparent !important;
+      transition: background-color 0.15s ease !important;
+
+      &:hover {
+        background-color: var(--highlight) !important;
+      }
+
+      .section {
+        .desc h3 {
+          margin: 0 !important;
+
+          a {
+            font-size: 0.84rem !important;
+            line-height: 1.35 !important;
+            color: var(--dark) !important;
+            font-weight: 500 !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            text-decoration: none !important;
+
+            &:hover {
+              color: var(--secondary) !important;
+            }
+          }
+        }
+
+        .meta {
+          font-size: 0.74rem !important;
+          color: var(--gray) !important;
+          margin-top: 0.15rem !important;
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+  }
+}
