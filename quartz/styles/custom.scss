@@ -317,10 +317,10 @@ ul.tags {
 }
 
 // ============================================================================
-// 📌 サイドバー（左：観測ログ一覧 / 右：目次＆最近の観測ログ）のフロート固定（Sticky追従）
+// 📌 サイドバー（左：観測ログ一覧 / 右：目次＆最近の観測ログ）の自然なフロート追従（Sticky）
 // ============================================================================
 @media all and not ($mobile) {
-  // グリッド親要素の余計なoverflow制約を解除し、上端揃えに設定
+  // グリッド親要素の余計な制約を解除し、上端揃えに設定
   .page {
     overflow: visible !important;
   }
@@ -328,52 +328,61 @@ ul.tags {
   .page > #quartz-body {
     overflow: visible !important;
     align-items: start !important;
+    padding-top: 1.5rem !important;
   }
 
-  // 左サイドバー（タイトル、検索、観測ログ一覧）のStickyフロート
+  // 左サイドバー（タイトル、検索、観測ログ一覧）
   .page > #quartz-body .sidebar.left {
     position: sticky !important;
-    top: 0 !important;
+    top: 1.5rem !important;
     align-self: start !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
+    height: auto !important;
+    max-height: calc(100vh - 3rem) !important;
     box-sizing: border-box !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
+    overflow: visible !important;
     display: flex !important;
     flex-direction: column !important;
-    scrollbar-width: thin !important;
-    scrollbar-color: var(--lightgray) transparent !important;
+    padding: 0 !important;
     z-index: 10 !important;
 
-    // 内部の観測ログ一覧（エクスプローラー）のスクロール領域確保
+    // サイトタイトルとツールバー
+    .page-title {
+      margin-top: 0 !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    // 観測ログ一覧（エクスプローラー）のスクロール領域確保
     .explorer {
       flex: 1 1 auto !important;
       display: flex !important;
       flex-direction: column !important;
       min-height: 0 !important;
+      margin-top: 0.5rem !important;
 
       .explorer-content {
         flex: 1 1 auto !important;
         overflow-y: auto !important;
-        max-height: calc(100vh - 160px) !important;
+        max-height: calc(100vh - 200px) !important;
+        padding-right: 0.3rem !important;
         scrollbar-width: thin !important;
         scrollbar-color: var(--lightgray) transparent !important;
       }
     }
   }
 
-  // 右サイドバー（目次、最近の観測ログ）も同様にStickyフロート
+  // 右サイドバー（目次、最近の観測ログ）
   .page > #quartz-body .sidebar.right {
     position: sticky !important;
-    top: 0 !important;
+    top: 1.5rem !important;
     align-self: start !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
+    height: auto !important;
+    max-height: calc(100vh - 3rem) !important;
     box-sizing: border-box !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
+    padding: 0 !important;
     scrollbar-width: thin !important;
     scrollbar-color: var(--lightgray) transparent !important;
+    z-index: 10 !important;
   }
 }
