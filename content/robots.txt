@@ -23,3 +23,6 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: https://ghost.voronoi.works/sitemap.xml
+# LLMs.txt for AI agents and search engines
+# See: https://llmstxt.org/
+# https://ghost.voronoi.works/llms.txt
