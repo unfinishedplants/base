@@ -317,18 +317,26 @@ ul.tags {
 }
 
 // ============================================================================
-// 📌 サイドバー（左：観測ログ一覧 / 右：目次＆最近の観測ログ）の自然なフロート追従（Sticky）
+// 📌 広々・洗練されたモダン3カラムグリッド ＆ 自然なフロート追従レイアウト
 // ============================================================================
-@media all and not ($mobile) {
-  // グリッド親要素の余計な制約を解除し、上端揃えに設定
-  .page {
-    overflow: visible !important;
-  }
+.page {
+  max-width: 1580px !important;
+  width: 94vw !important;
+  margin: 0 auto !important;
+  padding: 0 1rem !important;
+  overflow: visible !important;
+}
 
+@media all and not ($mobile) {
+  // グリッド親要素：ゆったりした3カラム配分と呼吸できるカラム間ギャップ
   .page > #quartz-body {
     overflow: visible !important;
     align-items: start !important;
-    padding-top: 1.5rem !important;
+    padding-top: 2rem !important;
+    display: grid !important;
+    grid-template-columns: 280px minmax(0, 1fr) 280px !important;
+    column-gap: 3.2rem !important; // 約50pxのゆったりした隙間で窮屈感を完全粉砕！
+    row-gap: 2rem !important;
   }
 
   // 左サイドバー（タイトル、検索、観測ログ一覧）
@@ -336,6 +344,7 @@ ul.tags {
     position: sticky !important;
     top: 1.5rem !important;
     align-self: start !important;
+    width: 280px !important;
     height: auto !important;
     max-height: calc(100vh - 3rem) !important;
     box-sizing: border-box !important;
@@ -348,24 +357,109 @@ ul.tags {
     // サイトタイトルとツールバー
     .page-title {
       margin-top: 0 !important;
-      margin-bottom: 0.5rem !important;
+      margin-bottom: 0.6rem !important;
+      font-size: 1.45rem !important;
     }
 
-    // 観測ログ一覧（エクスプローラー）のスクロール領域確保
+    // 観測ログ一覧（エクスプローラー）
     .explorer {
       flex: 1 1 auto !important;
       display: flex !important;
       flex-direction: column !important;
       min-height: 0 !important;
-      margin-top: 0.5rem !important;
+      margin-top: 0.8rem !important;
 
       .explorer-content {
         flex: 1 1 auto !important;
         overflow-y: auto !important;
-        max-height: calc(100vh - 200px) !important;
-        padding-right: 0.3rem !important;
+        max-height: calc(100vh - 210px) !important;
+        padding-right: 0.4rem !important;
         scrollbar-width: thin !important;
         scrollbar-color: var(--lightgray) transparent !important;
+
+        ul {
+          padding-left: 0.2rem !important;
+        }
+
+        li a {
+          font-size: 0.86rem !important;
+          line-height: 1.5 !important;
+          padding: 0.3rem 0.4rem !important;
+        }
+      }
+    }
+  }
+
+  // 中央カラム（本文エリア）のゆったりとした呼吸感
+  .page > #quartz-body .center {
+    min-width: 0 !important;
+    max-width: 100% !important;
+
+    // パンくずリストの1行スッキリ化
+    .breadcrumb-container {
+      font-size: 0.82rem !important;
+      opacity: 0.75 !important;
+      margin-bottom: 0.6rem !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      max-width: 100% !important;
+    }
+
+    // 記事タイトル：3行ギチギチを防ぎ優雅なサイズ＆行間に調整
+    h1.article-title {
+      font-size: 1.7rem !important;
+      line-height: 1.42 !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.01em !important;
+      margin-top: 0.4rem !important;
+      margin-bottom: 0.8rem !important;
+      word-break: break-word !important;
+    }
+
+    // 日付・読了時間メタ情報
+    .content-meta {
+      font-size: 0.84rem !important;
+      color: var(--gray) !important;
+      margin-bottom: 0.8rem !important;
+    }
+
+    // 本文のフォントサイズ＆行間を心地よい黄金比に
+    article {
+      p, li {
+        font-size: 1.02rem !important;
+        line-height: 1.9 !important;
+        letter-spacing: 0.02em !important;
+        margin-bottom: 1.5rem !important;
+      }
+
+      h2 {
+        font-size: 1.35rem !important;
+        margin-top: 2.8rem !important;
+        margin-bottom: 1.2rem !important;
+        padding-bottom: 0.4rem !important;
+        border-bottom: 1px solid var(--lightgray) !important;
+      }
+
+      h3 {
+        font-size: 1.18rem !important;
+        margin-top: 2.2rem !important;
+        margin-bottom: 1rem !important;
+      }
+
+      blockquote {
+        margin: 1.6rem 0 !important;
+        padding: 0.8rem 1.4rem !important;
+        background: var(--highlight) !important;
+        border-left: 3px solid var(--secondary) !important;
+        border-radius: 0 6px 6px 0 !important;
+
+        p {
+          margin-bottom: 0.5rem !important;
+          &:last-child {
+            margin-bottom: 0 !important;
+          }
+        }
       }
     }
   }
@@ -375,6 +469,7 @@ ul.tags {
     position: sticky !important;
     top: 1.5rem !important;
     align-self: start !important;
+    width: 280px !important;
     height: auto !important;
     max-height: calc(100vh - 3rem) !important;
     box-sizing: border-box !important;
@@ -384,5 +479,17 @@ ul.tags {
     scrollbar-width: thin !important;
     scrollbar-color: var(--lightgray) transparent !important;
     z-index: 10 !important;
+
+    // 目次（TOC）のスッキリ化
+    .toc {
+      margin-bottom: 1.5rem !important;
+      button.toc-header {
+        font-size: 0.92rem !important;
+      }
+      ul {
+        font-size: 0.84rem !important;
+        line-height: 1.5 !important;
+      }
+    }
   }
 }
