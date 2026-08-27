@@ -619,3 +619,98 @@ ul.tags {
     }
   }
 }
+
+// ============================================================================
+// 🤖 記事ヘッダー：AIで読む・要約するチップバー（Ask AI Buttons）
+// ============================================================================
+.ask-ai-container {
+  margin-top: 0.8rem !important;
+  margin-bottom: 1.6rem !important;
+  padding: 0.5rem 0.8rem !important;
+  background: var(--highlight) !important;
+  border: 1px dashed var(--lightgray) !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+
+  .ask-ai-bar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 0.5rem 0.8rem !important;
+    width: 100% !important;
+  }
+
+  .ask-ai-label {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    color: var(--gray) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.3rem !important;
+    white-space: nowrap !important;
+
+    .ask-ai-icon {
+      font-size: 0.95rem !important;
+    }
+  }
+
+  .ask-ai-chips {
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+  }
+
+  .ask-ai-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.3rem !important;
+    padding: 0.2rem 0.55rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 500 !important;
+    color: var(--darkgray) !important;
+    background: var(--light) !important;
+    border: 1px solid var(--lightgray) !important;
+    border-radius: 9999px !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    line-height: 1.2 !important;
+
+    .chip-icon {
+      font-size: 0.85rem !important;
+    }
+
+    &:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    &.chip-chatgpt:hover {
+      border-color: #10a37f !important;
+      color: #10a37f !important;
+      background: rgba(16, 163, 127, 0.08) !important;
+    }
+
+    &.chip-claude:hover {
+      border-color: #d97706 !important;
+      color: #d97706 !important;
+      background: rgba(217, 119, 6, 0.08) !important;
+    }
+
+    &.chip-perplexity:hover {
+      border-color: #06b6d4 !important;
+      color: #06b6d4 !important;
+      background: rgba(6, 182, 212, 0.08) !important;
+    }
+
+    &.chip-copy:hover {
+      border-color: var(--secondary) !important;
+      color: var(--secondary) !important;
+      background: var(--highlight) !important;
+    }
+  }
+}

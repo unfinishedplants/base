@@ -1,0 +1,28 @@
+{
+  "name": "ask-ai",
+  "version": "1.0.0",
+  "description": "Ask AI and read in ChatGPT/Claude/Perplexity buttons for Quartz",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./components": "./dist/index.js"
+  },
+  "quartz": {
+    "name": "ask-ai",
+    "displayName": "Ask AI",
+    "category": "component",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 35,
+    "defaultEnabled": true,
+    "components": {
+      "AskAI": {
+        "displayName": "AskAI",
+        "defaultPosition": "beforeBody",
+        "defaultPriority": 35
+      }
+    }
+  }
+}

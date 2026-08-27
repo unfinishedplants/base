@@ -172,6 +172,12 @@ plugins:
     layout:
       position: beforeBody
       priority: 30
+  - source: ./custom-plugins/ask-ai
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 35
+      condition: not-index
   - source: github:quartz-community/page-title
     enabled: true
     layout:
