@@ -1,0 +1,28 @@
+{
+  "name": "prev-next",
+  "version": "1.0.0",
+  "description": "Prev/Next article navigation component for Quartz",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./components": "./dist/index.js"
+  },
+  "quartz": {
+    "name": "prev-next",
+    "displayName": "Prev Next",
+    "category": "component",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 5,
+    "defaultEnabled": true,
+    "components": {
+      "PrevNext": {
+        "displayName": "PrevNext",
+        "defaultPosition": "afterBody",
+        "defaultPriority": 5
+      }
+    }
+  }
+}

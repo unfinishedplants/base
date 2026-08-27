@@ -203,6 +203,12 @@ plugins:
     layout:
       position: afterBody
       priority: 10
+  - source: ./custom-plugins/prev-next
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 5
+      condition: not-index
   - source: github:quartz-community/footer
     enabled: true
     options:
