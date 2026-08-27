@@ -701,6 +701,12 @@ ul.tags {
       background: rgba(217, 119, 6, 0.08) !important;
     }
 
+    &.chip-gemini:hover {
+      border-color: #3b82f6 !important;
+      color: #2563eb !important;
+      background: rgba(59, 130, 246, 0.08) !important;
+    }
+
     &.chip-perplexity:hover {
       border-color: #06b6d4 !important;
       color: #06b6d4 !important;

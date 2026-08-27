@@ -70,6 +70,19 @@ var AskAI_default = ((opts) => {
                   ]
                 }),
                 u2("a", {
+                  href: "https://gemini.google.com/app",
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                  class: "ask-ai-chip chip-gemini",
+                  "data-prompt": promptText,
+                  onclick: "navigator.clipboard.writeText(this.getAttribute('data-prompt')); const orig = this.innerHTML; this.innerHTML = '<span class=\\'chip-icon\\'>📋</span> コピー済!(Ctrl+V)'; setTimeout(() => this.innerHTML = orig, 3000);",
+                  title: "プロンプトをコピーしてGeminiを開きます（開いたらCtrl+Vで貼り付け）",
+                  children: [
+                    u2("span", { class: "chip-icon", children: "💎" }),
+                    " Gemini"
+                  ]
+                }),
+                u2("a", {
                   href: perplexityUrl,
                   target: "_blank",
                   rel: "noopener noreferrer",
