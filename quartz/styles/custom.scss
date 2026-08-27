@@ -378,10 +378,22 @@ ul.tags {
       flex-direction: column !important;
       min-height: 0 !important;
       margin-top: 0.8rem !important;
-      overflow: visible !important; // 中間枠のスクロールバーも完全排除
+      overflow: hidden !important;
       scrollbar-width: none !important;
       &::-webkit-scrollbar {
         display: none !important;
+      }
+
+      // 📂 折りたたまれた状態（スッキリ閉じる！）
+      &.collapsed {
+        flex: 0 0 auto !important;
+        height: auto !important;
+        max-height: 2.5rem !important;
+        overflow: hidden !important;
+
+        .explorer-content {
+          display: none !important;
+        }
       }
 
       .title-button {
