@@ -349,11 +349,15 @@ ul.tags {
     height: calc(100vh - 3rem) !important;
     max-height: calc(100vh - 3rem) !important;
     box-sizing: border-box !important;
-    overflow: hidden !important;
+    overflow: visible !important; // 外枠のスクロールバーを完全排除
     display: flex !important;
     flex-direction: column !important;
     padding: 0 !important;
     z-index: 10 !important;
+    scrollbar-width: none !important;
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
 
     // サイトタイトルとツールバー（上部に固定）
     .page-title {
@@ -372,27 +376,42 @@ ul.tags {
       flex: 1 1 auto !important;
       display: flex !important;
       flex-direction: column !important;
-      min-height: 0 !important; // Flex子要素でスクロールを成立させる必須設定
+      min-height: 0 !important;
       margin-top: 0.8rem !important;
-      overflow: hidden !important;
+      overflow: visible !important; // 中間枠のスクロールバーも完全排除
+      scrollbar-width: none !important;
+      &::-webkit-scrollbar {
+        display: none !important;
+      }
 
       .title-button {
         flex-shrink: 0 !important;
       }
 
-      // ★記事リスト内だけがマウスホイールでスルスル快適にスクロールする！
+      // ★ここだけに唯一のスクロールバーを1本だけ生成！
       .explorer-content {
         flex: 1 1 auto !important;
         overflow-y: auto !important;
-        overscroll-behavior: contain !important; // スクロール暴走・親ページ衝突を防止
+        overflow-x: hidden !important;
+        overscroll-behavior: contain !important;
         min-height: 0 !important;
-        padding-right: 0.4rem !important;
+        max-height: calc(100vh - 180px) !important;
+        padding-right: 0.3rem !important;
         scrollbar-width: thin !important;
         scrollbar-color: var(--lightgray) transparent !important;
 
-        ul {
+        // 内側ULの二重スクロールバーを完全粉砕
+        ul,
+        ul.overflow,
+        ul.explorer-ul {
+          overflow: visible !important;
+          overflow-y: visible !important;
           padding-left: 0.2rem !important;
           padding-bottom: 2rem !important;
+          scrollbar-width: none !important;
+          &::-webkit-scrollbar {
+            display: none !important;
+          }
         }
 
         li a {
