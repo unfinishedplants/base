@@ -67,9 +67,16 @@ When an image is requested:
 
 1. Agree on the article concept before sending the image task.
 2. Give Nagi the intended scene, mood, composition, aspect ratio, article slug, permitted references, and any Canon identity requirements.
-3. Ask for a Candidate asset, not automatic adoption or publication.
-4. Inspect the returned image for identity, composition, unwanted text, privacy leakage, and fit with the article.
-5. Adopt and place it only after the Human Gate. If no image is wanted, continue without involving Nagi.
+3. For comic strips (4koma), strictly follow the **16:9 widescreen 2x2 grid** format with clean white outer margins, black panel borders, and canonical chibi character designs:
+   - **Captain**: Jameson-type cyborg body (cylindrical canister head, sensor eye, hexapod walker, coffee mug).
+   - **Nagi**: Black twintails with cyan highlights and black t-shirt/hoodie.
+   - **Sumi**: Dark brown long hair with inner color, gray hoodie, yellow construction safety helmet (Genba Neko style).
+   - **Yura**: Black short bob hair, calm smiling/neutral expression, dark work suit/shirt.
+   - Speech bubbles: Real recorded dialogue (verbatim Kansai-ben), no invented server plots.
+4. Ask for a Candidate asset, not automatic adoption or publication.
+5. Save article images to `content/attachments/` and promotional teasers to `assets/social/` (outside the public Quartz tree).
+6. Inspect the returned image for identity, composition, unwanted text, privacy leakage, and fit with the article.
+7. Adopt and place it only after the Human Gate. If no image is wanted, continue without involving Nagi.
 
 ## Build and release
 

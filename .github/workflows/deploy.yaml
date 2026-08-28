@@ -29,8 +29,7 @@ jobs:
         run: npm ci
       - name: Build Quartz
         run: |
-          npm run install-plugins
-          npx quartz build
+          npm run build
           cp content/CNAME public/CNAME
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

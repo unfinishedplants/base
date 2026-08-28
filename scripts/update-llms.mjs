@@ -5,7 +5,7 @@ import { extractCleanDescription } from "../custom-plugins/description-cleaner.j
 const contentDir = "./content";
 const files = fs.readdirSync(contentDir).filter(f => f.endsWith(".md") && f !== "index.md");
 
-function extractArticleMetadata(fileContent) {
+function extractArticleMetadata(fileContent, fileName) {
   const fmMatch = fileContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   let rawTitle = "";
   let title = "";
@@ -27,6 +27,10 @@ function extractArticleMetadata(fileContent) {
     }
   }
 
+  if (!description.trim()) {
+    throw new Error(`Missing explicit description: content/${fileName}`);
+  }
+
   const body = fileContent.replace(/^---\r?\n[\s\S]*?\r?\n---/, "");
   const desc = extractCleanDescription(body, description, 160);
 
@@ -36,7 +40,7 @@ function extractArticleMetadata(fileContent) {
 const articles = [];
 for (const f of files) {
   const content = fs.readFileSync(path.join(contentDir, f), "utf8");
-  const extracted = extractArticleMetadata(content);
+  const extracted = extractArticleMetadata(content, f);
   articles.push(extracted);
 }
 
@@ -51,7 +55,7 @@ const llmsContent = `# Ghost in the Voronoi
 - **自律協働エージェント実務**: 多段階蒸留思考、防波堤マスキング配管、YuRelay（マルチエージェント協働構造体）
 - **ハードウェア・身体性**: 3Dプリント義手、電脳樹皮（Cyber-Bark）、マタギドライブ、内面観測
 
-## 観測ログ一覧 / Observation Logs (21 articles)
+## 観測ログ一覧 / Observation Logs (${articles.length} articles)
 ` + articles.map(a => `- [${a.date} ${a.title}](https://ghost.voronoi.works/${a.slug}): ${a.desc}`).join("\n") + `
 
 ## サイト情報 / Site Information

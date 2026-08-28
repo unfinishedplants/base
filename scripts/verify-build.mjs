@@ -225,13 +225,45 @@ const llmsPath = path.join(publicDir, "llms.txt")
 assert(fs.existsSync(llmsPath), "public/llms.txt exists")
 if (fs.existsSync(llmsPath)) {
   const llms = fs.readFileSync(llmsPath, "utf8")
+  const articleFiles = fs
+    .readdirSync("./content")
+    .filter((file) => file.endsWith(".md") && file !== "index.md")
+
   assert(!llms.includes("未検出画像"), "llms.txt has no '未検出画像'")
   assert(!llms.includes("![PXL"), "llms.txt has no raw '![PXL' image tags")
   assert(
     !llms.includes("ひぎィィィッ！！！:"),
     "llms.txt has no exclamation placeholder descriptions",
   )
-  assert(llms.includes("2026-08-26"), "llms.txt includes 2026-08-26 articles")
+  assert(
+    llms.includes(`Observation Logs (${articleFiles.length} articles)`),
+    `llms.txt reports the current article count (${articleFiles.length})`,
+  )
+
+  for (const file of articleFiles) {
+    const source = fs.readFileSync(path.join("./content", file), "utf8")
+    const frontmatterMatch = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+    assert(Boolean(frontmatterMatch), `${file} has frontmatter`)
+    const frontmatter = frontmatterMatch ? YAML.parse(frontmatterMatch[1]) ?? {} : {}
+    const description = String(
+      frontmatter.description ?? frontmatter.socialDescription ?? "",
+    ).trim()
+    const slug = String(frontmatter.slug ?? file.replace(/\.md$/, "")).trim()
+
+    assert(Boolean(description), `${file} has an explicit description`)
+    assert(
+      !/ひぎィ|ボゴォ/.test(description),
+      `${file} description has no opening scream`,
+    )
+    assert(
+      llms.includes(`https://ghost.voronoi.works/${slug}`),
+      `llms.txt includes ${slug}`,
+    )
+    assert(
+      llms.includes(description),
+      `llms.txt uses the explicit description for ${slug}`,
+    )
+  }
 }
 
 console.log("\n=== Verification Summary ===")
