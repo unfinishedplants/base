@@ -1,0 +1,17 @@
+﻿{
+  "name": "content-index",
+  "version": "1.0.0",
+  "description": "Content index, sitemap, and RSS feed emitter plugin for Quartz",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "quartz": {
+    "name": "content-index",
+    "displayName": "Content Index",
+    "category": "emitter",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0"
+  }
+}

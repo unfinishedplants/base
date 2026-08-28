@@ -10,7 +10,7 @@ configuration:
     websiteId: "2e510d81-2dc1-42c0-9ba5-243f211636ac"
 
 
-  locale: en-US
+  locale: ja-JP
   baseUrl: ghost.voronoi.works
   ignorePatterns:
     - private
@@ -45,7 +45,7 @@ configuration:
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#b3aa0288"
 plugins:
-  - source: github:quartz-community/created-modified-date
+  - source: ./custom-plugins/created-modified-date
     enabled: true
     options:
       defaultDateType: created
@@ -82,7 +82,7 @@ plugins:
     options:
       markdownLinkResolution: shortest
     order: 60
-  - source: github:quartz-community/description
+  - source: ./custom-plugins/description
     enabled: true
     order: 70
   - source: github:quartz-community/latex
@@ -110,7 +110,7 @@ plugins:
     enabled: false
   - source: github:quartz-community/alias-redirects
     enabled: true
-  - source: github:quartz-community/content-index
+  - source: ./custom-plugins/content-index
     enabled: true
     options:
       enableSiteMap: true
