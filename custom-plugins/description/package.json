@@ -1,0 +1,17 @@
+﻿{
+  "name": "description",
+  "version": "1.0.0",
+  "description": "Description generator plugin for Quartz with clean Japanese/English sentence extraction",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "quartz": {
+    "name": "description",
+    "displayName": "Description",
+    "category": "transformer",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0"
+  }
+}

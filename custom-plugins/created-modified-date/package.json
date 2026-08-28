@@ -1,0 +1,17 @@
+﻿{
+  "name": "created-modified-date",
+  "version": "1.0.0",
+  "description": "Created and modified dates plugin for Quartz with date frontmatter support",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "quartz": {
+    "name": "created-modified-date",
+    "displayName": "Created Modified Date",
+    "category": "transformer",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0"
+  }
+}
