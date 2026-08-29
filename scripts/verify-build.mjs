@@ -1,4 +1,4 @@
-﻿import fs from "fs"
+import fs from "fs"
 import path from "path"
 import YAML from "yaml"
 
@@ -111,10 +111,18 @@ if (fs.existsSync(rssPath)) {
   assert(tagCount === 0, "No tag pages or 404/index found in RSS feed items")
   assert(invalidDescCount === 0, "All RSS feed items have non-empty descriptions")
 
-  // Verify first item is newest article (2026-08-26)
+  // Verify the feed remains newest-first without hard-coding a specific article.
   if (itemsParsed.length > 0) {
-    console.log("RSS First item:", itemsParsed[0].title, "->", itemsParsed[0].link)
-    assert(itemsParsed[0].link.includes("2026-08-26"), "RSS first item is the newest article")
+    console.log("RSS First item:", itemsParsed[0].title, "->", itemsParsed[0].link, "pubDate:", itemsParsed[0].pubDate)
+    const pubDates = itemsParsed.map((item) => Date.parse(item.pubDate))
+    const firstPubDate = pubDates[0]
+    const newestPubDate = Math.max(...pubDates)
+    console.log("All pubDates:", itemsParsed.map(i => `${i.title.slice(0, 15)}: ${i.pubDate}`))
+    console.log("firstPubDate:", firstPubDate, "newestPubDate:", newestPubDate)
+    assert(
+      pubDates.every(Number.isFinite) && firstPubDate >= newestPubDate,
+      "RSS first item is the newest article",
+    )
   }
 }
 
