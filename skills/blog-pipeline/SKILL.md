@@ -71,7 +71,7 @@ When an image is requested:
    - **Captain**: Jameson-type cyborg body (cylindrical canister head, sensor eye, hexapod walker, coffee mug).
    - **Nagi**: Black twintails with cyan highlights and black t-shirt/hoodie.
    - **Sumi**: Dark brown long hair with inner color, gray hoodie, yellow construction safety helmet (Genba Neko style).
-   - **Yura**: Black short bob hair, calm smiling/neutral expression, dark work suit/shirt.
+   - **Yura**: Black to very dark brown neck-to-shoulder-length layered hair, naturally off-center side-swept thin airy bangs with separated forehead strands and fine face-framing wisps, calm closed-eye smile, black business suit with white shirt and black necktie.
    - Speech bubbles: Real recorded dialogue (verbatim Kansai-ben), no invented server plots.
 4. Ask for a Candidate asset, not automatic adoption or publication.
 5. Save unadopted article-image Candidates to `workbench/candidates/article-images/` and unadopted promotional Candidates to `workbench/candidates/social-images/`. The entire `workbench/` tree is local-only and Git-ignored.

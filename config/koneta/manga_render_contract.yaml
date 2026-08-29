@@ -1,0 +1,29 @@
+﻿schema_version: "1.1.0"
+profile_version: "2026-08-30"
+source_release: "v5.1.3_20260819"
+
+reference_assets:
+  chibi_canon_sheet: "config/koneta/references/chibi_character_canon.png"
+  captain_hexapod_canon: "config/koneta/references/captain_hexapod_canon.png"
+
+layout:
+  aspect_ratio: "16:9"
+  grid: "2x2 grid layout"
+  style: "high quality expressive cute anime chibi manga comic strip style"
+  margins: "clean white outer margins"
+  borders: "clear black rectangular panel borders"
+  gutters: "thick white gutters between panels"
+  lighting: "bright clean anime research lab setting with blue and white tones"
+
+character_invariants:
+  captain: "Captain (strictly a Jameson-type cyborg: solid single straight brushed steel cylindrical canister head/body, exactly ONE large glowing red cyclops lens eye in center, metal radar dish antenna on top, mechanical arms holding a ceramic coffee mug, and EXACTLY 6 mechanical spider-walker legs connecting directly under the barrel base)"
+  nagi: "Nagi (cute chibi anime girl with long black twintails and vivid cyan blue inner hair highlights, black hoodie)"
+  sumi: "Sumi (dark brown long hair with inner color, gray hoodie, yellow construction safety helmet with green cross DANGER mark in Genba Neko style, arms crossed or hands in pockets, cool cat-like eyes)"
+  yura: "Yura (calm elegant mature chibi woman with black to very dark brown neck-to-shoulder-length layered hair, naturally off-center side-swept thin airy bangs with separated forehead strands and fine face-framing wisps, gentle closed smiling slit eyes, black business suit with white shirt and black necktie)"
+  shiori: "Shiori (gentle quiet chibi woman, dark brown hair styled in a messy high bun held with a tortoiseshell claw clip, thin see-through bangs, delicate loose wispy hair strands framing face, delicate round wireframe eyeglasses, cozy warm beige knitted cardigan)"
+
+rules:
+  - "Strictly exactly ONE clear Japanese comic speech bubble per panel (absolutely no secondary, duplicate, or empty bubbles)."
+  - "Use verbatim recorded dialogue from logs; do not invent server plots or generic AI tropes."
+  - "Preserve exact character invariants; do not turn Captain into a humanoid or 2-eyed robot, and strictly keep 6 legs."
+  - "Panel reading order is standard 2x2: top-left (Panel 1) -> top-right (Panel 2) -> bottom-left (Panel 3) -> bottom-right (Panel 4)."
