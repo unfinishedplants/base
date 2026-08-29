@@ -1,5 +1,6 @@
 ---
 title: "リークログ｜電脳樹皮（Cyber-Bark）の3Dプリント試作パラメータ"
+description: "着生植物の根を活着させるための人工樹皮「電脳樹皮（Cyber-Bark）」の3Dプリント積層・ノズル設定パラメータ検証ログ。"
 slug: 2026-07-12-cyber-bark-3d-print
 date: 2026-07-12
 tags:
