@@ -1,17 +1,34 @@
-# Quartz v5
+# Ghost in the Voronoi (GITV)
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+Ghost in the Voronoi is the public observation log for ProjectYure: production accidents, agent drift, repairs, and technical discoveries become readable artifacts here.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
+The site is built with [Quartz](https://quartz.jzhao.xyz/) and published at <https://ghost.voronoi.works/>.
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+## Repository map
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
+- `content/` — published article sources and adopted article images
+- `assets/social/` — adopted promotional assets that are intentionally kept outside the Quartz public tree
+- `workbench/` — local-only drafts, raw logs, Candidates, and legacy tools; ignored by Git except for its boundary document
+- `skills/` — shared agent-facing editorial and release workflow
+- `scripts/` — deterministic generation, verification, and local-preview tools
+- `custom-plugins/` — GITV-owned Quartz plugins
+- `quartz/` and `docs/` — the Quartz engine and upstream documentation
 
-## Sponsors
+## Publication boundaries
 
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+- `content/attachments/` contains adopted public images only.
+- Generated Candidates stay under `workbench/candidates/` until explicit human adoption.
+- `content/llms.txt`, `public/`, RSS, and the sitemap are generated artifacts and are not edited by hand.
+- Saving, adopting an image, committing, pushing, and publishing are separate approval gates.
+- A push to `main` starts the GitHub Pages deployment workflow.
+
+## Local commands
+
+```sh
+npm install
+npm run build
+```
+
+On Windows, `scripts/preview-quartz.bat` starts the local Quartz preview server.
+
+The shared workflow is documented in `skills/blog-pipeline/SKILL.md`.

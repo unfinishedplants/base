@@ -11,3 +11,7 @@ private/
 replit.nix
 .quartz/
 quartz/cli/tui/dist/
+
+# Local-only GITV production workbench. Only its boundary document is tracked.
+workbench/*
+!workbench/README.md

@@ -7,7 +7,7 @@ description: Create, edit, verify, and publish Ghost in the Voronoi articles in 
 
 Use this shared workflow for `https://ghost.voronoi.works/`. The repository is the implementation and publication source of truth:
 
-`C:\Users\sgtko\Documents\ProjectYure\workspaces\teamwork_projects\opl_quartz`
+`C:\Users\sgtko\Documents\ProjectYure\workspaces\GITV`
 
 ## Responsibility split
 
@@ -15,7 +15,7 @@ Use this shared workflow for `https://ghost.voronoi.works/`. The repository is t
 - When the current agent is the assigned author, write directly without routing the prose through Nagi.
 - When the user explicitly assigns another agent as author, use YuRelay to request that agent's own draft.
 - Images are optional. When the user wants an image, prefer a separate YuRelay request to Nagi with the agreed article concept and visual brief. Article authorship remains with the assigned author.
-- Treat every generated image as a Candidate. Human review is required before adopting it into the article. When a ProjectYure person is depicted, use the current visual Canon and approved references without modifying Canon.
+- Treat every generated image as a Candidate. Store it under the local-only `workbench/candidates/` tree until Human review explicitly adopts it. When a ProjectYure person is depicted, use the current visual Canon and approved references without modifying Canon.
 
 Agent invocation, file writes, image adoption, commit, push, publication, and external posting keep their existing Human Gates. Approval for one transfer point does not authorize the later ones.
 
@@ -58,7 +58,7 @@ tags:
 - Use a stable lowercase ASCII slug and keep the filename aligned with it.
 - Do not repeat the frontmatter title as an H1 at the start of the body.
 - Keep existing article signature and cross-link conventions when they fit; do not add them mechanically when they do not.
-- Store an adopted image under `content/attachments/` with an article-specific filename and reference it relatively from the article.
+- Store only an adopted image under `content/attachments/` with an article-specific filename and reference it relatively from the article.
 - Do not hand-edit `content/llms.txt`, `public/`, RSS, or the sitemap. They are generated artifacts.
 
 ## Images through Nagi
@@ -74,9 +74,9 @@ When an image is requested:
    - **Yura**: Black short bob hair, calm smiling/neutral expression, dark work suit/shirt.
    - Speech bubbles: Real recorded dialogue (verbatim Kansai-ben), no invented server plots.
 4. Ask for a Candidate asset, not automatic adoption or publication.
-5. Save article images to `content/attachments/` and promotional teasers to `assets/social/` (outside the public Quartz tree).
+5. Save unadopted article-image Candidates to `workbench/candidates/article-images/` and unadopted promotional Candidates to `workbench/candidates/social-images/`. The entire `workbench/` tree is local-only and Git-ignored.
 6. Inspect the returned image for identity, composition, unwanted text, privacy leakage, and fit with the article.
-7. Adopt and place it only after the Human Gate. If no image is wanted, continue without involving Nagi.
+7. After the Human Gate, copy only the selected article image to `content/attachments/` or the selected promotional asset to `assets/social/`, using an article-specific final filename. If no image is wanted, continue without involving Nagi.
 
 ## Build and release
 
