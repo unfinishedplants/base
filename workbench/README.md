@@ -5,6 +5,7 @@ This tree contains production material that has not crossed a publication or ado
 Local layout:
 
 - `koneta-stock/` — draft observation cards
+- `product-leads/` — local troubleshooting episodes and deliverable product lead candidates
 - `raw-logs/` — source logs and recovered drafts
 - `candidates/article-images/` — unadopted article-image Candidates
 - `candidates/social-images/` — unadopted promotional Candidates
