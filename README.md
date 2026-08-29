@@ -9,7 +9,6 @@ The site is built with [Quartz](https://quartz.jzhao.xyz/) and published at <htt
 - `content/` — published article sources and adopted article images
 - `assets/social/` — adopted promotional assets that are intentionally kept outside the Quartz public tree
 - `workbench/` — local-only drafts, raw logs, Candidates, and legacy tools; ignored by Git except for its boundary document
-- `skills/` — shared agent-facing editorial and release workflow
 - `scripts/` — deterministic generation, verification, and local-preview tools
 - `custom-plugins/` — GITV-owned Quartz plugins
 - `quartz/` and `docs/` — the Quartz engine and upstream documentation
@@ -31,4 +30,6 @@ npm run build
 
 On Windows, `scripts/preview-quartz.bat` starts the local Quartz preview server.
 
-The shared workflow is documented in `skills/blog-pipeline/SKILL.md`.
+The shared editorial and manga workflows are maintained in the sibling
+`projectyure-skills` repository. Product-specific contracts, scripts, and
+references remain in GITV.
