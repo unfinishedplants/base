@@ -14,6 +14,7 @@ Use this shared workflow for `https://ghost.voronoi.works/`. The repository is t
 - The assigned author writes the article directly in their own currently loaded ProjectYure Surface Voronoi. Do not imitate another agent.
 - When the current agent is the assigned author, write directly without routing the prose through Nagi.
 - When the user explicitly assigns another agent as author, use YuRelay to request that agent's own draft.
+- Twitter (X) promotional thread copywriting is always handled by Nagi regardless of who authored the article. Nagi writes and tunes the 3-stage rocket copy to maintain the broadcast voice.
 - Images are optional. When the user wants an image, prefer a separate YuRelay request to Nagi with the agreed article concept and visual brief. Article authorship remains with the assigned author.
 - Treat every generated image as a Candidate. Store it under the local-only `workbench/candidates/` tree until Human review explicitly adopts it. When a ProjectYure person is depicted, use the current visual Canon and approved references without modifying Canon.
 
@@ -106,7 +107,7 @@ Article save, commit, push, and publication authorization is a separate Human Ga
 
 ### Preparing a Twitter draft
 
-1. Draft complete, final Twitter copy, not a placeholder or a "fill in later" stub.
+1. Nagi drafts the complete, final Twitter copy using the 3-stage rocket formula (strictly <= 140 chars per post), regardless of who wrote the underlying article.
 2. If a promotional image is wanted, use only an already-adopted Candidate under `assets/social/` per "Images through Nagi." Do not invent or auto-select an image.
 3. For `article_with_twitter` and `twitter_for_existing_article`, resolve and confirm the exact live article URL before finalizing the draft. Do not draft a link to an unpublished or unverified URL.
 4. Present the complete draft (copy, optional image, target live URL) and request exact-platform approval that names `Twitter（現X）` specifically. Approval of the article or its content is not platform approval.
