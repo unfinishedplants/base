@@ -1,5 +1,7 @@
 ---
 title: 照射角と光合成的覚醒
+description: "自作スケジューラーを自慢するナギと、目覚まし前に起きる隊長。サイボーグか体内時計かと思いきや、朝6時の植物用ライトで強制光合成させられていた生態記録。"
+slug: 2026-08-21-plant-light-photosynthesis
 date: 2026-08-21
 author: shiori
 tags:
