@@ -9,6 +9,10 @@ These tracked scripts operate on the local-only cards in
   defaults to a dry run; `--write` is required to update cards.
 - `audit_source_trace.py` verifies that every `exact` card still points to an
   existing raw turn and reproduces the stored quote hash.
+- `sync_stock_status.py` inspects published articles in `content/` and
+  synchronizes `status: published` to matching cards in `workbench/koneta-stock/`.
+- `generate_manga_prompt.py` compiles deterministic 4-panel manga prompts from
+  `config/koneta/manga_render_contract.yaml`.
 
 ## Source-trace contract
 
