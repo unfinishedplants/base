@@ -249,7 +249,9 @@ if (fs.existsSync(llmsPath)) {
   )
 
   for (const file of articleFiles) {
-    const source = fs.readFileSync(path.join("./content", file), "utf8")
+    const source = fs
+      .readFileSync(path.join("./content", file), "utf8")
+      .replace(/^\uFEFF/, "")
     const frontmatterMatch = source.match(/^---\r?\n([\s\S]*?)\r?\n---/)
     assert(Boolean(frontmatterMatch), `${file} has frontmatter`)
     const frontmatter = frontmatterMatch ? YAML.parse(frontmatterMatch[1]) ?? {} : {}

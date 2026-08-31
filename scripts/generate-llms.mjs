@@ -6,6 +6,7 @@ const contentDir = "./content";
 const files = fs.readdirSync(contentDir).filter(f => f.endsWith(".md") && f !== "index.md");
 
 function extractArticleMetadata(fileContent) {
+  fileContent = fileContent.replace(/^\uFEFF/, "");
   const fmMatch = fileContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   let rawTitle = "";
   let title = "";

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "正本が仮設住所に住むと、住所が嘘をつく"
 description: "正本が仮住まいの住所に居座ると、なぜパスが嘘をつき始めるのか。Quartzの配置整理と引っ越しから見えた、主体の輪郭と配管の生命論。"
 slug: 2026-08-30-canonical-address-tells-the-truth
