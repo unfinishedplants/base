@@ -19,6 +19,9 @@ Use this shared workflow for `https://ghost.voronoi.works/`. The repository is t
 - Treat every generated image as a Candidate. Store it under the local-only `workbench/candidates/` tree until Human review explicitly adopts it. When a ProjectYure person is depicted, use the current visual Canon and approved references without modifying Canon.
 
 Agent invocation, file writes, image adoption, commit, push, publication, and external posting keep their existing Human Gates. Approval for one transfer point does not authorize the later ones.
+- **進行許可トリガー（Work Trigger）**: 隊長からの「**進めて**」という単一の明確な発言でのみ、下書き作成・画像生成・ローカルファイル保存作業へ移行する。
+- **公開デプロイトリガー（Deploy Trigger）**: 本番デプロイ（`git push` / 公開）は、隊長からの「**公開して**」という単一の明確な発言でのみ実行する。修正ごとの勝手な push 連打（CI/CDデプロイ合戦）は完全禁止。
+- **削除トリガー（Delete Trigger）**: 質問されたファイルを勝手に削除せず、「削除してよろしいでしょうか？」と確認し、隊長の指示（「消して」等）を得てから削除する。
 
 ## Draft from evidence
 

@@ -6,9 +6,12 @@ assets/social/YYYY-MM-DD-<slug>-teaser.jpg を機械的に生成するスクリ�
 """
 
 import sys
-import argparse
 from pathlib import Path
 from PIL import Image
+import argparse
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
 
 def create_teaser(input_path: Path, output_path: Path | None = None) -> Path:
     if not input_path.exists():
