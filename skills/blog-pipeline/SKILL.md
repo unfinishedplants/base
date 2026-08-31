@@ -34,7 +34,7 @@ Before presenting the preview or requesting Human Gate approval, conduct a stric
 - **Public-safety / Privacy**: Check for secrets, API tokens, internal private URLs, local Windows absolute paths (e.g. `C:\Users\...`), unpublished infrastructure, or account details.
 - **Pipe & File Contract**: Verify `content/YYYY-MM-DD-slug.md` filename, mandatory frontmatter (`title`, `description`, `slug`, `date`, `tags`), and no duplicate H1 title in body.
 - **Metaphor & Voice Fidelity**: Ensure author persona fidelity (Yura's philosophical calm / Nagi's 3-stage rocket @voronoi_logs voice) and consistent metaphors without jargon leak.
-- **Visual Canon Integrity**: Verify 4-panel manga candidate against Canon (Captain hexapod, Nagi cyan twintails, Sumi helmet, Yura suit, zero duplicate speech bubbles).
+- **Visual Canon Integrity**: Verify 4-panel manga candidate against Canon (Captain hexapod, Nagi cyan twintails, Sumi helmet & long hair, Yura suit, zero duplicate speech bubbles, and exact speaker bubble attribution without flipped tails).
 
 Include the **Sumi Audit Report** in the preview artifact before waiting for Human Gate approval.
 
@@ -85,9 +85,10 @@ From the repository root:
 1. Run `npm run build`. Its lifecycle regenerates `content/llms.txt`, installs the required Quartz plugins, builds the site, and runs the verification script.
 2. Treat a missing explicit description, llms mismatch, SEO/feed failure, or Quartz error as a failed build. Fix the source article or pipeline rather than editing generated output.
 3. Review the diff and preserve unrelated working-tree changes.
-4. Commit only when explicitly requested, staging only the approved article and directly related assets or pipeline changes.
-5. Push only when explicitly requested. A push to `main` triggers the GitHub Pages workflow and publication.
-6. After publication, verify the live article URL and the relevant `llms.txt`, RSS, sitemap, metadata, and image behavior in proportion to the change.
+4. For koneta micro-articles, run `python scripts/koneta/sync_stock_status.py --apply` to keep `workbench/koneta-stock/` status in sync.
+5. Commit only when explicitly requested, staging only the approved article and directly related assets or pipeline changes.
+6. Push only when explicitly requested. A push to `main` triggers the GitHub Pages workflow and publication.
+7. After publication, verify the live article URL and the relevant `llms.txt`, RSS, sitemap, metadata, and image behavior in proportion to the change.
 
 Do not use legacy `sync_to_quartz.py` paths or treat a local file save as proof of deployment.
 
