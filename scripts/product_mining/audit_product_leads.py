@@ -1,6 +1,10 @@
 """Audit exact source traces and semantic validity for product lead cards.
 
-Read-only auditor verifying:
+The default mode is read-only. Scheduled operation may opt into the narrowly scoped
+``--auto-downgrade`` repair, which changes only a failing ``product-ready`` status
+to ``review_needed`` and keeps every other card byte intact.
+
+Auditor checks:
 1. Trace Integrity:
    - Exact source trace pointers map to verifiable turns with reproducible SHA-256 quote hashes.
    - Multi-turn episodes: all contributing turns (source_turns) are individually resolved and verified.
@@ -17,8 +21,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
+import tempfile
 from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
@@ -315,6 +321,74 @@ def audit_card(card_path: Path) -> List[str]:
     return trace_errors + semantic_errors
 
 
+def downgrade_failed_product_ready(card_path: Path) -> bool:
+    """Atomically downgrade one product-ready card while preserving all other bytes."""
+    raw = card_path.read_bytes()
+    status_pattern = re.compile(
+        rb"(?m)^(status:[ \t]*)([\"']?)product-ready\2([ \t]*\r?)$"
+    )
+    updated, replacements = status_pattern.subn(
+        lambda match: match.group(1) + match.group(2) + b"review_needed" + match.group(2) + match.group(3),
+        raw,
+        count=1,
+    )
+    if replacements != 1:
+        return False
+
+    fd, temp_name = tempfile.mkstemp(
+        prefix=f".{card_path.name}.", suffix=".tmp", dir=str(card_path.parent)
+    )
+    try:
+        with os.fdopen(fd, "wb") as temp_file:
+            temp_file.write(updated)
+            temp_file.flush()
+            os.fsync(temp_file.fileno())
+        os.replace(temp_name, card_path)
+    except Exception:
+        try:
+            os.unlink(temp_name)
+        except OSError:
+            pass
+        raise
+    return True
+
+
+def sync_checkpoint_downgrade(leads_dir: Path, source_quote_hash: str) -> bool:
+    """Keep the local checkpoint status aligned with an auto-downgraded card."""
+    if not source_quote_hash:
+        return False
+    checkpoint_path = leads_dir / "_state" / "checkpoint.json"
+    if not checkpoint_path.is_file():
+        return False
+    try:
+        checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8"))
+        entry = checkpoint.get("processed_episodes", {}).get(source_quote_hash)
+        if not isinstance(entry, dict) or entry.get("status") == "review_needed":
+            return False
+        entry["status"] = "review_needed"
+
+        fd, temp_name = tempfile.mkstemp(
+            prefix=f".{checkpoint_path.name}.", suffix=".tmp", dir=str(checkpoint_path.parent)
+        )
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as temp_file:
+                json.dump(checkpoint, temp_file, ensure_ascii=False, indent=2)
+                temp_file.write("\n")
+                temp_file.flush()
+                os.fsync(temp_file.fileno())
+            os.replace(temp_name, checkpoint_path)
+        except Exception:
+            try:
+                os.unlink(temp_name)
+            except OSError:
+                pass
+            raise
+        return True
+    except (OSError, ValueError, TypeError) as exc:
+        print(f"  [WARN] checkpoint status sync failed: {checkpoint_path}: {exc}")
+        return False
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Audit product lead cards (Trace Integrity & Semantic Validity).")
     parser.add_argument(
@@ -326,11 +400,18 @@ def main() -> int:
     )
     parser.add_argument("--trace-only", action="store_true", help="Audit only trace integrity")
     parser.add_argument("--semantic-only", action="store_true", help="Audit only semantic validity")
+    parser.add_argument(
+        "--auto-downgrade",
+        action="store_true",
+        help="Atomically change failing product-ready cards to review_needed",
+    )
     args = parser.parse_args()
 
     counts: Counter[str] = Counter()
     trace_failures: List[Tuple[Path, List[str]]] = []
     semantic_failures: List[Tuple[Path, List[str]]] = []
+    downgrade_failures: List[Tuple[Path, str]] = []
+    downgraded_cards: List[Path] = []
     total_cards = 0
 
     for leads_dir in args.leads_dirs:
@@ -342,11 +423,34 @@ def main() -> int:
                 continue
 
             total_cards += 1
-            fields = parse_card_fields(card_path.read_text(encoding="utf-8"))
+            card_text = card_path.read_text(encoding="utf-8")
+            fields = parse_card_fields(card_text)
+            t_errs, s_errs = audit_card_detailed(card_path)
+            selected_t_errs = [] if args.semantic_only else t_errs
+            selected_s_errs = [] if args.trace_only else s_errs
+
+            if (
+                args.auto_downgrade
+                and str(fields.get("status", "")) == "product-ready"
+                and (selected_t_errs or selected_s_errs)
+            ):
+                try:
+                    if not downgrade_failed_product_ready(card_path):
+                        downgrade_failures.append((card_path, "status line was not replaced exactly once"))
+                    else:
+                        downgraded_cards.append(card_path)
+                        sync_checkpoint_downgrade(
+                            leads_dir, str(fields.get("source_quote_hash", ""))
+                        )
+                        print(f"  [DOWNGRADED] {card_path.name}: product-ready -> review_needed")
+                        card_text = card_path.read_text(encoding="utf-8")
+                        fields = parse_card_fields(card_text)
+                        t_errs, s_errs = audit_card_detailed(card_path)
+                except OSError as exc:
+                    downgrade_failures.append((card_path, str(exc)))
+
             status = str(fields.get("status", "unknown"))
             counts[status] += 1
-
-            t_errs, s_errs = audit_card_detailed(card_path)
             if t_errs and not args.semantic_only:
                 trace_failures.append((card_path, t_errs))
             if s_errs and not args.trace_only:
@@ -357,6 +461,11 @@ def main() -> int:
     print("===================================================")
     print(f"Total cards audited: {total_cards}")
     print(f"Status breakdown: {dict(counts)}\n")
+    if args.auto_downgrade:
+        print(f"[AUTO DOWNGRADE] changed={len(downgraded_cards)} failures={len(downgrade_failures)}")
+        for card_path, error in downgrade_failures:
+            print(f"  [DOWNGRADE FAIL] {card_path.name}: {error}")
+        print()
 
     if not args.semantic_only:
         trace_pass_count = total_cards - len(trace_failures)
@@ -381,9 +490,14 @@ def main() -> int:
         has_failures = True
     if not args.trace_only and semantic_failures:
         has_failures = True
+    if downgrade_failures:
+        has_failures = True
 
     ordered = " ".join(f"{k}={counts[k]}" for k in sorted(counts))
-    print(f"[SUMMARY] {ordered} trace_fails={len(trace_failures)} semantic_fails={len(semantic_failures)}")
+    print(
+        f"[SUMMARY] {ordered} trace_fails={len(trace_failures)} "
+        f"semantic_fails={len(semantic_failures)} downgraded={len(downgraded_cards)}"
+    )
     return 1 if has_failures else 0
 
 

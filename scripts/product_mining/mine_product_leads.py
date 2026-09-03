@@ -188,6 +188,17 @@ CHECKLIST_OR_DESIGN_PATTERNS = [
     r"ルー語になってるとこは直したい",
 ]
 
+FALSE_POSITIVE_CONTEXT_PATTERNS = [
+    r"^\s*#\s*ProjectYure\s+v\d+\s+Current Load Order",
+    r"\bSource status policy:\s*Embedded module Version and Status labels\b",
+    r"(?:^|\n)\s*#{1,6}\s*(?:failure modes?(?: and guards)?|想定される失敗モード|エラーハンドリング)",
+    r"\bexplicit design decision\s*,?\s*not an error\b",
+    r"(?:^|\n)\s*免責事項\s*[:：]",
+    r"(?:バグっぽい会話|product[ -]?lead|商品リード).{0,80}(?:採掘|マイナ|候補)",
+    r"(?:画面|画像|絵|イラスト).{0,100}(?:感じ(?:が|に|の)|描いて|表現して).{0,100}(?:エラー|失敗)|(?:エラー|失敗).{0,100}(?:感じ(?:が|に|の)|描いて|表現して)",
+    r"^\s*catch\s*\([^\n]+\)\s*\{[^\n]*(?:error|失敗)[^\n]*\}\s*;?\s*$",
+]
+
 ROOT_CAUSE_TRIGGERS = [
     r"原因は\s*(.+)",
     r"root cause(?::|\s+is)\s*(.+)",
@@ -260,6 +271,8 @@ def is_checklist_or_false_positive(text: str) -> bool:
     """Checks whether text looks like a checklist or design discussion rather than an error."""
     lines = [l.strip() for l in text.splitlines() if l.strip()]
     if not lines:
+        return True
+    if any(re.search(pattern, text, re.IGNORECASE | re.MULTILINE) for pattern in FALSE_POSITIVE_CONTEXT_PATTERNS):
         return True
     checklist_count = sum(1 for l in lines if any(re.search(p, l) for p in CHECKLIST_OR_DESIGN_PATTERNS))
     if checklist_count >= 2 or (checklist_count == 1 and len(lines) <= 2):
@@ -353,8 +366,15 @@ def extract_episodes_from_turns(turns: List[Turn]) -> List[Episode]:
             t_start = session_turns[i]
             combined_start = f"{t_start.user}\n{t_start.model}"
 
-            is_problem = any(re.search(pat, combined_start, re.IGNORECASE) for pat in PROBLEM_TRIGGERS)
-            if not is_problem or is_checklist_or_false_positive(t_start.user):
+            # A product incident must be grounded in the human utterance.  Model-only
+            # mentions commonly come from pasted docs, tool output, safety rules, or
+            # examples and were the largest source of false-positive cards.
+            is_problem = any(re.search(pat, t_start.user, re.IGNORECASE) for pat in PROBLEM_TRIGGERS)
+            if (
+                not is_problem
+                or is_checklist_or_false_positive(t_start.user)
+                or is_checklist_or_false_positive(combined_start)
+            ):
                 i += 1
                 continue
 
@@ -409,13 +429,15 @@ def extract_episodes_from_turns(turns: List[Turn]) -> List[Episode]:
                 all_text_parts.append(f"Turn {et.turn_index}:\nUser: {u_clean}\nModel: {m_clean}")
                 roles: List[str] = []
 
-                for speaker_text in [u_clean, m_clean]:
+                for speaker_index, speaker_text in enumerate([u_clean, m_clean]):
                     for line in speaker_text.split("\n"):
                         l_str = line.strip()
                         if not l_str:
                             continue
 
-                        if any(re.search(p, l_str, re.IGNORECASE) for p in PROBLEM_TRIGGERS):
+                        if speaker_index == 0 and any(
+                            re.search(p, l_str, re.IGNORECASE) for p in PROBLEM_TRIGGERS
+                        ):
                             if not any(re.search(p, l_str) for p in CHECKLIST_OR_DESIGN_PATTERNS):
                                 if turn_idx <= 1 and len(symptom_parts) < 2:
                                     symptom_parts.append(l_str)
@@ -812,8 +834,13 @@ def save_checkpoint(checkpoint_file: Path, data: Dict[str, Any]) -> None:
 # Session Collection & Main Pipeline
 # ---------------------------------------------------------------------------
 
-def collect_all_turns(cutoff_time: float) -> List[Turn]:
-    """Collects turns across Antigravity, Codex, and Claude Code sessions."""
+def collect_all_turns(cutoff_time: float, current_time: Optional[float] = None) -> List[Turn]:
+    """Collect turns whose own utterance timestamps fall inside the scan window.
+
+    Session discovery uses file modification time only as an inexpensive first pass.
+    A recently touched transcript can contain arbitrarily old turns, so every extracted
+    turn is filtered again by its recorded utterance timestamp before mining.
+    """
     turns: List[Turn] = []
     if koneta_miner is None:
         print("[WARN] koneta_miner not found, cannot scan sessions.")
@@ -835,6 +862,11 @@ def collect_all_turns(cutoff_time: float) -> List[Turn]:
     for mtime, agent, sid, p in cl_sessions:
         all_session_tuples.append((mtime, agent, sid, p, "claude-code"))
 
+    scan_ceiling = time.time() if current_time is None else current_time
+    excluded_old = 0
+    excluded_missing_time = 0
+    excluded_future = 0
+
     for mtime, agent, session_id, log_path, platform in all_session_tuples:
         if platform == "antigravity":
             raw_turns = koneta_miner.extract_turns_from_antigravity(log_path)
@@ -846,12 +878,24 @@ def collect_all_turns(cutoff_time: float) -> List[Turn]:
             raw_turns = []
 
         for t_idx, rt in enumerate(raw_turns, start=1):
+            turn_time = str(rt.get("time") or "")
+            turn_epoch = parse_iso_time(turn_time)
+            if turn_epoch <= 0:
+                excluded_missing_time += 1
+                continue
+            if turn_epoch < cutoff_time:
+                excluded_old += 1
+                continue
+            if turn_epoch > scan_ceiling:
+                excluded_future += 1
+                continue
+
             q_hash = koneta_miner.turn_quote_hash(rt["user"], rt["model"])
             turns.append(
                 Turn(
                     user=rt["user"],
                     model=rt["model"],
-                    time=rt.get("time") or "",
+                    time=turn_time,
                     agent=agent,
                     platform=platform,
                     session_id=session_id,
@@ -863,6 +907,11 @@ def collect_all_turns(cutoff_time: float) -> List[Turn]:
                 )
             )
 
+    print(
+        "  • Utterance window    : "
+        f"kept={len(turns)} old={excluded_old} "
+        f"missing_time={excluded_missing_time} future={excluded_future}"
+    )
     return turns
 
 

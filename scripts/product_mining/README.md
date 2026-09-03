@@ -47,7 +47,14 @@ python scripts/product_mining/audit_product_leads.py --trace-only
 
 # セマンティック妥当性のみ監査
 python scripts/product_mining/audit_product_leads.py --semantic-only
+
+# 監査に失敗した product-ready だけを review_needed へ原子的に自動降格
+python scripts/product_mining/audit_product_leads.py --auto-downgrade
 ```
+
+通常の監査は引き続き読み取り専用です。Windowsの日次ラッパーは採掘後に
+`--auto-downgrade` 付き監査を実行し、降格時はカード本文・来歴を触らず
+frontmatter の `status` だけを変更します。対応するチェックポイントの状態も同期します。
 
 ---
 
@@ -57,6 +64,14 @@ python scripts/product_mining/audit_product_leads.py --semantic-only
 同一セッション（`platform` × `session_id`）であっても、固定ターン窓（3ターン）だけに頼らず、以下の2つの決定論的境界判定を行います：
 1. **時間差切断（Time Gap Break）**: ターン間の時間差が **30分（1,800秒）** を超える場合、別インシデントと判定してEpisodeを強制切断します（12時間後の別作業PASSが結合することを防止）。
 2. **対象シグナル切断（Target Signal Break）**: 検出された技術名（Docker, Python, Node, Git等）、ファイル名、実行コマンド等のシグナル集合に共通集合（共通要素）が存在しない場合、別インシデントと判定して結合を拒否します。
+
+セッションファイルの更新日時は探索の一次絞り込みにだけ使います。抽出後は各発言の
+記録日時を再判定し、指定時間より古い発言、日時欠落、未来日時を採掘対象から除外します。
+また、失敗モード一覧、免責事項、明示的な「エラーではない」設計判断、採掘器自身の説明、
+Harness/Load Order入力、エラーを描くための画像指示、コード断片だけの error path は
+インシデントの誤検出として除外します。インシデント開始は
+ユーザー発言内の問題表現を必須とし、モデル回答やツール出力にだけ現れる `error` / `失敗`
+からはEpisodeを開始しません。
 
 ### (2) 検証証拠の同一対象バインディング（Target Binding Gate）
 - `verification_evidence` の採用は、**検証候補文の対象シグナルが非空** かつ **問題/修正側のコア対象シグナルが非空** かつ **両者に非空の共通集合（共通シグナル）が存在する場合のみ** に厳格に限定されます。
@@ -149,6 +164,8 @@ score = pain_strength + audience_breadth + recurrence + verified_fix_strength + 
   - 開始時刻を逃した場合は次回起動時に実行（`StartWhenAvailable`）
   - 実行ログ・失敗ログ: `workbench/product-leads/_runs/product_miner_YYYYMMDD_HHMMSS.log`
 - **ラッパー**: `scripts/product_mining/run_daily_product_miner.ps1`
+- **ログ文字コード**: UTF-8（BOMなし）。Pythonの標準出力もUTF-8として受け取り、文字化けを防止
+- **採掘後監査**: `--auto-downgrade` を実行し、監査失敗した `product-ready` を `review_needed` へ降格
 
 ---
 

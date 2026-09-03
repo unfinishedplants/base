@@ -12,6 +12,10 @@ param(
 )
 
 $ErrorActionPreference = "Continue"
+$Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = $Utf8NoBom
+[Console]::InputEncoding = $Utf8NoBom
+[Console]::OutputEncoding = $Utf8NoBom
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoDir = Split-Path -Parent (Split-Path -Parent $ScriptDir)
@@ -23,16 +27,37 @@ if (-not (Test-Path $RunsDir)) {
 
 $Timestamp = (Get-Date).ToString("yyyyMMdd_HHmmss")
 $LogFile = Join-Path $RunsDir "product_miner_${Timestamp}.log"
+[System.IO.File]::WriteAllText($LogFile, "", $Utf8NoBom)
 
-Write-Output "Starting Product Lead Miner at $(Get-Date -Format o)" | Tee-Object -FilePath $LogFile
-Write-Output "Repo Dir: $RepoDir" | Tee-Object -FilePath $LogFile -Append
+function Write-RunLog {
+    param([AllowEmptyString()][string]$Message)
+    Write-Output $Message
+    [System.IO.File]::AppendAllText(
+        $LogFile,
+        $Message + [Environment]::NewLine,
+        $Utf8NoBom
+    )
+}
+
+Write-RunLog "Starting Product Lead Miner at $(Get-Date -Format o)"
+Write-RunLog "Repo Dir: $RepoDir"
 
 $PythonCmd = "python"
 $MinerScript = Join-Path $RepoDir "scripts\product_mining\mine_product_leads.py"
+$AuditScript = Join-Path $RepoDir "scripts\product_mining\audit_product_leads.py"
 
-& $PythonCmd $MinerScript --lookback-hours $LookbackHours --max-candidates $MaxCandidates *>&1 | Tee-Object -FilePath $LogFile -Append
-$ExitCode = $LASTEXITCODE
+& $PythonCmd $MinerScript --lookback-hours $LookbackHours --max-candidates $MaxCandidates 2>&1 |
+    ForEach-Object { Write-RunLog ([string]$_) }
+$MinerExitCode = $LASTEXITCODE
+$ExitCode = $MinerExitCode
 
-Write-Output "Finished Product Lead Miner with exit code $ExitCode at $(Get-Date -Format o)" | Tee-Object -FilePath $LogFile -Append
+if ($MinerExitCode -eq 0) {
+    Write-RunLog "Starting Product Lead Audit with automatic downgrade"
+    & $PythonCmd $AuditScript --auto-downgrade 2>&1 |
+        ForEach-Object { Write-RunLog ([string]$_) }
+    $ExitCode = $LASTEXITCODE
+}
+
+Write-RunLog "Finished Product Lead Pipeline with exit code $ExitCode at $(Get-Date -Format o)"
 
 exit $ExitCode

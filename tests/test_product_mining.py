@@ -29,6 +29,8 @@ from scripts.product_mining.audit_product_leads import (
     audit_card_detailed,
     audit_trace_integrity,
     audit_semantic_validity,
+    downgrade_failed_product_ready,
+    main as audit_main,
     parse_card_fields,
 )
 import scripts.koneta.mine_transcripts as koneta_miner
@@ -117,6 +119,78 @@ class TestProductMining(unittest.TestCase):
         ]
         episodes = extract_episodes_from_turns(turns)
         self.assertEqual(len(episodes), 0)
+
+    def test_documentation_and_meta_false_positives_are_excluded(self):
+        false_positive_samples = [
+            "## Failure Modes and Guards\n- build failure is retried three times",
+            "Explicit design decision, not an error: missing IDs are excluded from the catalog.",
+            "免責事項：自動売買にはプログラムの不具合による誤発注リスクがあります。",
+            "今のバグっぽい会話を商品リード候補として採掘するマイナーを確認する。",
+            "# ProjectYure v5 Current Load Order\nRelease: v5.1.3_20260819\n- 失敗を観測する",
+            "画面上のエラーが増えてる感じの絵にして。赤いダイアログを描いて。",
+            "catch (e) { /* error path, re-enables button */ }",
+        ]
+        for sample in false_positive_samples:
+            with self.subTest(sample=sample):
+                self.assertTrue(is_checklist_or_false_positive(sample))
+
+    def test_false_positive_context_does_not_create_episode(self):
+        turn = Turn(
+            user="Explicit design decision, not an error: missing IDs stay out of the catalog.",
+            model="The failure mode is documented and no fix is required.",
+            time="2026-09-03T10:00:00Z",
+            agent="sumi",
+            platform="claude-code",
+            session_id="false-positive-context",
+            log_path=str(self.test_dir / "dummy.jsonl"),
+            turn_index=1,
+            source_user_line=1,
+            source_model_line=2,
+            source_quote_hash="falsepositivehash",
+        )
+        self.assertEqual(extract_episodes_from_turns([turn]), [])
+
+    def test_model_only_problem_language_does_not_create_episode(self):
+        turn = Turn(
+            user="この設計案について説明して。",
+            model="想定される failure は build error です。修正例も記載します。",
+            time="2026-09-03T10:00:00Z",
+            agent="yura",
+            platform="codex",
+            session_id="model-only-problem",
+            log_path=str(self.test_dir / "dummy.jsonl"),
+            turn_index=1,
+            source_user_line=1,
+            source_model_line=2,
+            source_quote_hash="modelonlyhash",
+        )
+        self.assertEqual(extract_episodes_from_turns([turn]), [])
+
+    def test_collect_all_turns_filters_by_utterance_timestamp(self):
+        now_epoch = datetime.fromisoformat("2026-09-03T12:00:00+00:00").timestamp()
+        cutoff_epoch = now_epoch - 24 * 3600
+        log_path = self.test_dir / "recently-touched-session.jsonl"
+        log_path.write_text("{}\n", encoding="utf-8")
+        raw_turns = [
+            {"user": "old", "model": "old answer", "time": "2026-09-02T11:59:59Z"},
+            {"user": "boundary", "model": "kept", "time": "2026-09-02T12:00:00Z"},
+            {"user": "recent", "model": "kept", "time": "2026-09-03T11:59:59Z"},
+            {"user": "missing", "model": "excluded", "time": ""},
+            {"user": "future", "model": "excluded", "time": "2026-09-03T12:00:01Z"},
+        ]
+        session = [(now_epoch, "yura", "session-1", log_path)]
+        with (
+            patch("scripts.product_mining.mine_product_leads.koneta_miner.get_antigravity_sessions", return_value=[]),
+            patch("scripts.product_mining.mine_product_leads.koneta_miner.get_codex_sessions", return_value=session),
+            patch("scripts.product_mining.mine_product_leads.koneta_miner.get_claude_sessions", return_value=[]),
+            patch("scripts.product_mining.mine_product_leads.koneta_miner.extract_turns_from_codex", return_value=raw_turns),
+        ):
+            from scripts.product_mining.mine_product_leads import collect_all_turns
+
+            turns = collect_all_turns(cutoff_epoch, current_time=now_epoch)
+
+        self.assertEqual([turn.user for turn in turns], ["boundary", "recent"])
+        self.assertEqual([turn.turn_index for turn in turns], [2, 3])
 
     def test_negation_expressions_drop_status(self):
         has_neg, matches = check_negation_or_hedging("対症療法として一時的に回避しましたが、根治はしていない状態です。")
@@ -540,6 +614,71 @@ source_quote_hash: "abc"
 
         _, semantic_errs = audit_card_detailed(card_file)
         self.assertTrue(any("TARGET BINDING GATE VIOLATION" in e for e in semantic_errs))
+
+    def test_failed_product_ready_downgrade_changes_only_status_bytes(self):
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        card_file = self.output_dir / "failing_product_ready.md"
+        original = (
+            b"---\r\n"
+            b'candidate_id: "PL-20260903-001"\r\n'
+            b'status: "product-ready"\r\n'
+            b'root_cause: ""\r\n'
+            b"---\r\n"
+            + "# 日本語の本文\r\n本文は保持する。\r\n".encode("utf-8")
+        )
+        card_file.write_bytes(original)
+
+        self.assertTrue(downgrade_failed_product_ready(card_file))
+        updated = card_file.read_bytes()
+        self.assertEqual(
+            updated,
+            original.replace(b'status: "product-ready"', b'status: "review_needed"', 1),
+        )
+        self.assertFalse(downgrade_failed_product_ready(card_file))
+
+    def test_auto_downgrade_cli_repairs_card_and_checkpoint(self):
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        source_hash = "a" * 64
+        card_file = self.output_dir / "failing_product_ready.md"
+        card_file.write_text(
+            f'''---
+candidate_id: "PL-20260903-001"
+status: "product-ready"
+fix_status: "verified"
+symptom: "Docker build failed"
+root_cause: ""
+fix: "Dockerfile fixed"
+verification_evidence: "docker build exit code 0"
+privacy_internal_risk: "low"
+source_trace_status: "untraced"
+source_quote_hash: "{source_hash}"
+---
+# Keep this body
+''',
+            encoding="utf-8",
+        )
+        self.checkpoint_file.parent.mkdir(parents=True, exist_ok=True)
+        self.checkpoint_file.write_text(
+            json.dumps(
+                {
+                    "version": 1,
+                    "processed_episodes": {
+                        source_hash: {"candidate_id": "PL-20260903-001", "status": "product-ready"}
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        with patch("sys.argv", ["audit_product_leads.py", str(self.output_dir), "--auto-downgrade"]):
+            self.assertEqual(audit_main(), 0)
+
+        fields = parse_card_fields(card_file.read_text(encoding="utf-8"))
+        checkpoint = json.loads(self.checkpoint_file.read_text(encoding="utf-8"))
+        self.assertEqual(fields["status"], "review_needed")
+        self.assertEqual(
+            checkpoint["processed_episodes"][source_hash]["status"], "review_needed"
+        )
 
     def test_reproduced_turn2_no_target_signal_unverified_regression(self):
         """Regression test for reproduction:
