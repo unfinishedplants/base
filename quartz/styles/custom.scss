@@ -132,6 +132,44 @@ details.note-properties,
 }
 
 // ============================================================================
+// 📄 タグページ・フォルダページのリストレイアウト（タイトル縦長化・圧迫面接の回避）
+// ============================================================================
+ul.section-ul {
+  li.section-li {
+    .section {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: baseline !important;
+      row-gap: 0.4rem !important;
+      column-gap: 1rem !important;
+
+      > .meta {
+        flex: 0 0 auto !important;
+      }
+      
+      > .desc {
+        flex: 1 1 0% !important;
+        min-width: 0 !important; // テキストがあふれないように
+        
+        h3 {
+          margin: 0 !important;
+        }
+      }
+      
+      > .tags,
+      > ul.tags {
+        // ★重要：タグリストに横幅100%を持たせ、強制的に「タイトルの下の段落」へ落とす
+        flex: 0 0 100% !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        justify-content: flex-start !important;
+      }
+    }
+  }
+}
+
+// ============================================================================
 // 📂 観測ログ一覧（エクスプローラー）の超絶スッキリ・1行スマート化CSS
 // ============================================================================
 .explorer {
