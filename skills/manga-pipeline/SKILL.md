@@ -59,3 +59,6 @@ AIがその場の思い出しでプロンプトを英文作成することを禁
    承認後、記事内画像なら `content/attachments/YYYY-MM-DD-[slug].jpg`、SNS用画像なら `assets/social/YYYY-MM-DD-[slug]-teaser.jpg` へ配置する。
 6. **ストックステータス同期（Status Sync）**:
    公開記事を作成後、`python scripts/koneta/sync_stock_status.py --apply` を実行してストックカードのステータスを `published` に機械的に同期する。
+
+### 7. APIクォータ枯渇の回避（一球入魂）
+画像生成APIは1日の利用上限（クォータ）に達しやすい。些細なタイポ（「まやん」等）や微小な修正のために安易なリトライ（ガチャの引き直し）を連打してはならない。一球入魂で生成し、クォータ枯渇エラー（429 Too Many Requests）に直面した場合は、勝手にループせず直ちに隊長へ報告し、回復を待つか手動修正を仰ぐこと。

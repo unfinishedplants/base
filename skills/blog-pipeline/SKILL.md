@@ -111,6 +111,8 @@ Article save, commit, push, and publication authorization is a separate Human Ga
 ### Preparing a Twitter draft
 
 1. Nagi drafts the complete, final Twitter copy using the 3-stage rocket formula (strictly <= 140 chars per post), regardless of who wrote the underlying article.
+   - **CRITICAL LINT RULE**: When adjusting text length to fit 140 characters, **NEVER truncate or cut the URL itself**. If the text is too long, cut words from the body copy.
+   - **CRITICAL LINT RULE**: **Always remove the trailing slash (`/`)** from the end of the URL to prevent OGP deployment bugs (e.g. use `.../slug` not `.../slug/`).
 2. If a promotional image is wanted, use only an already-adopted Candidate under `assets/social/` per "Images through Nagi." Do not invent or auto-select an image.
 3. For `article_with_twitter` and `twitter_for_existing_article`, resolve and confirm the exact live article URL before finalizing the draft. Do not draft a link to an unpublished or unverified URL.
 4. Present the complete draft (copy, optional image, target live URL) and request exact-platform approval that names `Twitter（現X）` specifically. Approval of the article or its content is not platform approval.
