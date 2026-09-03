@@ -276,6 +276,41 @@ if (fs.existsSync(llmsPath)) {
   }
 }
 
+// 6. Seawall / Bouhatei Verification (Block leaked internal terms)
+console.log("\n=== Checking Seawall / Bouhatei Verification ===")
+const seawallKeywords = [
+  "今治",
+  "ProjectYure",
+  "Project Yure",
+  "projectyure",
+  "YuRelay",
+  "yurelay",
+]
+
+const articleFilesForSeawall = fs
+  .readdirSync("./content")
+  .filter((file) => file.endsWith(".md") && file !== "index.md")
+
+for (const file of articleFilesForSeawall) {
+  const source = fs.readFileSync(path.join("./content", file), "utf8")
+  for (const kw of seawallKeywords) {
+    assert(
+      !source.includes(kw),
+      `${file} passes seawall check (no leaked internal term: "${kw}")`,
+    )
+  }
+}
+
+if (fs.existsSync(llmsPath)) {
+  const llms = fs.readFileSync(llmsPath, "utf8")
+  for (const kw of seawallKeywords) {
+    assert(
+      !llms.includes(kw),
+      `llms.txt passes seawall check (no leaked internal term: "${kw}")`,
+    )
+  }
+}
+
 console.log("\n=== Verification Summary ===")
 if (failures.length === 0) {
   console.log("ALL CHECKS PASSED SUCCESSFULLY!")
@@ -285,3 +320,4 @@ if (failures.length === 0) {
   for (const f of failures) console.error(`- ${f}`)
   process.exit(1)
 }
+
