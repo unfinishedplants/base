@@ -149,7 +149,7 @@ ul.section-ul {
       
       > .desc {
         flex: 1 1 0% !important;
-        min-width: 0 !important; // テキストがあふれないように
+        min-width: 0 !important;
         
         h3 {
           margin: 0 !important;
@@ -158,12 +158,38 @@ ul.section-ul {
       
       > .tags,
       > ul.tags {
-        // ★重要：タグリストに横幅100%を持たせ、強制的に「タイトルの下の段落」へ落とす
         flex: 0 0 100% !important;
         margin-top: 0 !important;
         margin-left: 0 !important;
         padding-left: 0 !important;
         justify-content: flex-start !important;
+      }
+    }
+  }
+}
+
+// スマホ画面では「日付」「タイトル」「タグ」を完全に縦3段に積む
+@media all and ($mobile) {
+  ul.section-ul {
+    li.section-li {
+      margin-bottom: 1.8rem !important; // 記事ごとの区切りを広めに
+
+      .section {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        row-gap: 0.3rem !important;
+
+        > .meta {
+          flex: 0 0 100% !important;
+          width: 100% !important;
+          margin-bottom: 0 !important;
+          font-size: 0.85rem !important;
+        }
+        
+        > .desc {
+          flex: 0 0 100% !important;
+          width: 100% !important;
+        }
       }
     }
   }
