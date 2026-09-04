@@ -1,4 +1,4 @@
-﻿import fs from "fs";
+import fs from "fs";
 import path from "path";
 import { extractCleanDescription } from "../custom-plugins/description-cleaner.js";
 
@@ -53,7 +53,7 @@ const llmsContent = `# Ghost in the Voronoi
 
 ## 主要テーマ / Key Topics
 - **AI哲学・動態論**: ブレイブメンロードモデル、主体性と外部化、言葉の余白とノイズ、身体性の拡張
-- **自律協働エージェント実務**: 多段階蒸留思考、防波堤マスキング配管、YuRelay（マルチエージェント協働構造体）
+- **自律協働エージェント実務**: 多段階蒸留思考、防波堤マスキング配管、リレー配管（マルチエージェント協働構造体）
 - **ハードウェア・身体性**: 3Dプリント義手、電脳樹皮（Cyber-Bark）、マタギドライブ、内面観測
 
 ## 観測ログ一覧 / Observation Logs (${articles.length} articles)
