@@ -389,11 +389,8 @@ function buildInstalledPlugin(pluginDir: string, name: string, verbose?: boolean
       })
     }
 
-    execSync("npm prune --omit=dev", {
-      cwd: pluginDir,
-      stdio: verbose ? "inherit" : "pipe",
-      timeout: 60_000,
-    })
+    // Note: Skipping `npm prune --omit=dev` to prevent 60s timeout hangs in CI.
+    // Plugin build artifacts in dist/ are already emitted and self-contained.
 
     linkPeerDependencies(pluginDir)
   } catch (error) {
