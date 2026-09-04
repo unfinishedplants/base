@@ -234,10 +234,10 @@ export function installNativeDeps(
   }
 
   try {
-    execSync(`npm install --no-save ${installArgs.join(" ")}`, {
+    execSync(`npm install --no-save --no-audit --no-fund ${installArgs.join(" ")}`, {
       cwd: process.cwd(),
       stdio: options.verbose ? "inherit" : "pipe",
-      timeout: 120_000,
+      timeout: 180_000,
     })
 
     if (options.verbose) {
@@ -372,10 +372,10 @@ function buildInstalledPlugin(pluginDir: string, name: string, verbose?: boolean
     if (verbose) {
       console.log(styleText("cyan", `→`), `${name}: installing dependencies...`)
     }
-    execSync("npm install --ignore-scripts", {
+    execSync("npm install --ignore-scripts --no-audit --no-fund", {
       cwd: pluginDir,
       stdio: verbose ? "inherit" : "pipe",
-      timeout: 120_000,
+      timeout: 180_000,
     })
 
     if (shouldBuild) {
