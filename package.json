@@ -21,7 +21,7 @@
     "install-plugins": "npx tsx ./quartz/plugins/loader/install-plugins.ts",
     "update-llms": "node scripts/update-llms.mjs",
     "prebuild": "npm run update-llms && npm run install-plugins",
-    "build": "npx quartz build",
+    "build": "node ./quartz/bootstrap-cli.mjs build",
     "postbuild": "node scripts/verify-build.mjs"
   },
   "engines": {
