@@ -483,11 +483,14 @@ def draw_speech_bubble(draw, bubble_rect, mouth_pos, text, head_top_y=None):
             ly = start_y + i * line_h
             draw.text((lx, ly), line, fill="#000000", font=font)
 
-def render_storyboard(panels_spec, output_path, bubbles_only=False):
+def render_storyboard(panels_spec, output_path, bubbles_only=True):
     """
     panels_spec: list of 4 dicts
-    bubbles_only: if True, do not draw character bodies or monitors;
-                  only draw panel borders, speech bubbles, text, and tails.
+    bubbles_only: Default True (recommended). Renders panel borders, speech bubbles,
+                  Japanese text, and pointer tails without character bodies.
+                  This allows the image generation AI to freely render dynamic character
+                  poses and acting while strictly locking speech bubbles, Japanese text,
+                  and 2x2 panel borders. Set False only for legacy full-body color blocking.
     """
     img = Image.new("RGB", (CANVAS_W, CANVAS_H), "#ffffff")
     draw = ImageDraw.Draw(img)
@@ -700,12 +703,15 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=str, default=str(OUTPUT_DEFAULT_DIR / "sample_storyboard.png"))
     parser.add_argument("--sample", action="store_true", help="Generate default demo storyboard")
     parser.add_argument("--oauth", action="store_true", help="Generate OAuth episode storyboard")
-    parser.add_argument("--bubbles-only", action="store_true", help="Render only panel borders, speech bubbles, and text (no character bodies)")
+    parser.add_argument("--with-bodies", action="store_true", help="Render legacy colored character body blocks instead of recommended bubbles-only")
+    parser.add_argument("--bubbles-only", action="store_true", default=True, help="Render only panel borders, speech bubbles, and text (default)")
     args = parser.parse_args()
+
+    use_bubbles_only = not args.with_bodies
 
     if args.oauth:
         spec = get_oauth_spec()
     else:
         spec = get_demo_spec()
 
-    out_path = render_storyboard(spec, args.output, bubbles_only=args.bubbles_only)
+    out_path = render_storyboard(spec, args.output, bubbles_only=use_bubbles_only)
