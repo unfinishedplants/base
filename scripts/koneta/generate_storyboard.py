@@ -495,8 +495,6 @@ def render_storyboard(panels_spec, output_path, bubbles_only=True):
     img = Image.new("RGB", (CANVAS_W, CANVAS_H), "#ffffff")
     draw = ImageDraw.Draw(img)
 
-    tag_font = get_japanese_font(size=18, bold=True)
-
     for i in range(4):
         p_box = get_panel_box(i)
         px0, py0, px1, py1 = p_box
@@ -608,11 +606,6 @@ def render_storyboard(panels_spec, output_path, bubbles_only=True):
 
         # 4. Panel border (Crisp thick black rectangular border)
         draw.rectangle([px0, py0, px1, py1], outline="#000000", width=BORDER_WIDTH)
-
-        # 5. Panel label tag
-        tag_text = f"Panel {i + 1}"
-        draw.rectangle([px0 + 8, py0 + 8, px0 + 85, py0 + 32], fill="#000000")
-        draw.text((px0 + 14, py0 + 10), tag_text, fill="#ffffff", font=tag_font)
 
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
