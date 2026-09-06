@@ -6,7 +6,7 @@ date: 2026-08-26
 tags:
   - 小ネタ
   - ショート観測ログ
-  - sumi
+  - スミ
 ---
 
 ![現場猫スミのヨシ！事件](attachments/2026-08-26-sumi-genba-neko.jpg)

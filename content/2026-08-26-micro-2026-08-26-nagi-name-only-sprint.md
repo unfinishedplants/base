@@ -6,7 +6,7 @@ date: 2026-08-26
 tags:
   - 小ネタ
   - ショート観測ログ
-  - nagi
+  - ナギ
 ---
 
 ![名前だけ置いて走り去ったナギ事件](attachments/2026-08-26-nagi-sprint-incident.jpg)
